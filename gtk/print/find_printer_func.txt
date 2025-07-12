@@ -1,0 +1,32 @@
+static void
+find_printer (const char *printer,
+              GFunc        func,
+              gpointer     data)
+{
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  find_printer    \n");
+  GList *node, *next;
+  PrinterFinder *finder;
+
+  finder = g_new0 (PrinterFinder, 1);
+
+  finder->printer_name = g_strdup (printer);
+  finder->func = func;
+  finder->data = data;
+
+  finder->backends = NULL;
+  if (g_module_supported ())
+    finder->backends = gtk_print_backend_load_modules ();
+
+  if (finder->backends == NULL)
+    {
+      schedule_finder_callback (finder);
+      return;
+    }
+
+  for (node = finder->backends; !finder->found_printer && node != NULL; node = next)
+    {
+      next = node->next;
+      find_printer_init (finder, GTK_PRINT_BACKEND (node->data));
+    }
+}
+

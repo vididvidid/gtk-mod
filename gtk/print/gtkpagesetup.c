@@ -101,6 +101,8 @@ G_DEFINE_TYPE (GtkPageSetup, gtk_page_setup, G_TYPE_OBJECT)
 static void
 gtk_page_setup_finalize (GObject *object)
 {
+
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_finalize \n");
   GtkPageSetup *setup = GTK_PAGE_SETUP (object);
   
   gtk_paper_size_free (setup->paper_size);
@@ -111,6 +113,7 @@ gtk_page_setup_finalize (GObject *object)
 static void
 gtk_page_setup_init (GtkPageSetup *setup)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_init  \n");
   setup->paper_size = gtk_paper_size_new (NULL);
   setup->orientation = GTK_PAGE_ORIENTATION_PORTRAIT;
   setup->top_margin = gtk_paper_size_get_default_top_margin (setup->paper_size, GTK_UNIT_MM);
@@ -122,6 +125,7 @@ gtk_page_setup_init (GtkPageSetup *setup)
 static void
 gtk_page_setup_class_init (GtkPageSetupClass *class)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_class_init  \n");
   GObjectClass *gobject_class = (GObjectClass *)class;
 
   gobject_class->finalize = gtk_page_setup_finalize;
@@ -137,6 +141,7 @@ gtk_page_setup_class_init (GtkPageSetupClass *class)
 GtkPageSetup *
 gtk_page_setup_new (void)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_new  \n");
   return g_object_new (GTK_TYPE_PAGE_SETUP, NULL);
 }
 
@@ -151,6 +156,7 @@ gtk_page_setup_new (void)
 GtkPageSetup *
 gtk_page_setup_copy (GtkPageSetup *other)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_copy  \n");
   GtkPageSetup *copy;
 
   copy = gtk_page_setup_new ();
@@ -176,6 +182,7 @@ gtk_page_setup_copy (GtkPageSetup *other)
 GtkPageOrientation
 gtk_page_setup_get_orientation (GtkPageSetup *setup)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_orientation  \n");
   return setup->orientation;
 }
 
@@ -190,6 +197,7 @@ void
 gtk_page_setup_set_orientation (GtkPageSetup       *setup,
 				GtkPageOrientation  orientation)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_orientation  \n");
   setup->orientation = orientation;
 }
 
@@ -204,6 +212,7 @@ gtk_page_setup_set_orientation (GtkPageSetup       *setup,
 GtkPaperSize *
 gtk_page_setup_get_paper_size (GtkPageSetup *setup)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_paper_size  \n");
   g_return_val_if_fail (GTK_IS_PAGE_SETUP (setup), NULL);
 
   return setup->paper_size;
@@ -223,6 +232,7 @@ void
 gtk_page_setup_set_paper_size (GtkPageSetup *setup,
 			       GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_paper_size \n");
   GtkPaperSize *old_size;
 
   g_return_if_fail (GTK_IS_PAGE_SETUP (setup));
@@ -248,6 +258,7 @@ void
 gtk_page_setup_set_paper_size_and_default_margins (GtkPageSetup *setup,
 						   GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_paper_size_and_default_margins \n");
   gtk_page_setup_set_paper_size (setup, size);
   setup->top_margin = gtk_paper_size_get_default_top_margin (setup->paper_size, GTK_UNIT_MM);
   setup->bottom_margin = gtk_paper_size_get_default_bottom_margin (setup->paper_size, GTK_UNIT_MM);
@@ -268,6 +279,7 @@ double
 gtk_page_setup_get_top_margin (GtkPageSetup *setup,
 			       GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_top_margins  \n");
   return _gtk_print_convert_from_mm (setup->top_margin, unit);
 }
 
@@ -284,6 +296,7 @@ gtk_page_setup_set_top_margin (GtkPageSetup *setup,
 			       double        margin,
 			       GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_top_margin \n");
   setup->top_margin = _gtk_print_convert_to_mm (margin, unit);
 }
 
@@ -300,6 +313,7 @@ double
 gtk_page_setup_get_bottom_margin (GtkPageSetup *setup,
 				  GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup-get_bottom_margin  \n");
   return _gtk_print_convert_from_mm (setup->bottom_margin, unit);
 }
 
@@ -316,6 +330,7 @@ gtk_page_setup_set_bottom_margin (GtkPageSetup *setup,
 				  double        margin,
 				  GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_bottom_margin  \n");
   setup->bottom_margin = _gtk_print_convert_to_mm (margin, unit);
 }
 
@@ -332,6 +347,7 @@ double
 gtk_page_setup_get_left_margin (GtkPageSetup *setup,
 				GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_left_margin  \n");
   return _gtk_print_convert_from_mm (setup->left_margin, unit);
 }
 
@@ -348,6 +364,7 @@ gtk_page_setup_set_left_margin (GtkPageSetup *setup,
 				double        margin,
 				GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_left_margin  \n");
   setup->left_margin = _gtk_print_convert_to_mm (margin, unit);
 }
 
@@ -364,6 +381,7 @@ double
 gtk_page_setup_get_right_margin (GtkPageSetup *setup,
 				 GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_right_margin  \n");
   return _gtk_print_convert_from_mm (setup->right_margin, unit);
 }
 
@@ -380,6 +398,7 @@ gtk_page_setup_set_right_margin (GtkPageSetup *setup,
 				 double        margin,
 				 GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_set_right_margin  \n");
   setup->right_margin = _gtk_print_convert_to_mm (margin, unit);
 }
 
@@ -400,6 +419,7 @@ double
 gtk_page_setup_get_paper_width (GtkPageSetup *setup,
 				GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_paper_width  \n");
   if (setup->orientation == GTK_PAGE_ORIENTATION_PORTRAIT ||
       setup->orientation == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT)
     return gtk_paper_size_get_width (setup->paper_size, unit);
@@ -423,7 +443,7 @@ gtk_page_setup_get_paper_width (GtkPageSetup *setup,
 double
 gtk_page_setup_get_paper_height (GtkPageSetup *setup,
 				 GtkUnit       unit)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_paper_height \n");
   if (setup->orientation == GTK_PAGE_ORIENTATION_PORTRAIT ||
       setup->orientation == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT)
     return gtk_paper_size_get_height (setup->paper_size, unit);
@@ -447,7 +467,7 @@ gtk_page_setup_get_paper_height (GtkPageSetup *setup,
 double
 gtk_page_setup_get_page_width (GtkPageSetup *setup,
 			       GtkUnit       unit)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_page_width \n");
   double width;
 
   width = gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM);
@@ -476,7 +496,7 @@ gtk_page_setup_get_page_width (GtkPageSetup *setup,
 double
 gtk_page_setup_get_page_height (GtkPageSetup *setup,
 				GtkUnit       unit)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_get_page_height  \n");
   double height;
 
   height = gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM);
@@ -505,7 +525,7 @@ gboolean
 gtk_page_setup_load_file (GtkPageSetup *setup,
                           const char   *file_name,
 			  GError      **error)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_load_file  \n");
   gboolean retval = FALSE;
   GKeyFile *key_file;
 
@@ -539,7 +559,7 @@ gtk_page_setup_load_file (GtkPageSetup *setup,
 GtkPageSetup *
 gtk_page_setup_new_from_file (const char   *file_name,
 			      GError      **error)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_new_from_file  \n");
   GtkPageSetup *setup = gtk_page_setup_new ();
 
   if (!gtk_page_setup_load_file (setup, file_name, error))
@@ -555,7 +575,7 @@ gtk_page_setup_new_from_file (const char   *file_name,
 static guint
 string_to_enum (GType type,
                 const char *enum_string)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> string_to_enum  \n");
   GEnumClass *enum_class;
   const GEnumValue *value;
   guint retval = 0;
@@ -590,7 +610,7 @@ gtk_page_setup_load_key_file (GtkPageSetup *setup,
                               GKeyFile     *key_file,
                               const char   *group_name,
                               GError      **error)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_load_key_file  \n");
   GtkPaperSize *paper_size;
   double top, bottom, left, right;
   char *orientation = NULL, *freeme = NULL;
@@ -678,7 +698,7 @@ GtkPageSetup *
 gtk_page_setup_new_from_key_file (GKeyFile     *key_file,
 				  const char   *group_name,
 				  GError      **error)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_new_from_key_file  \n");
   GtkPageSetup *setup = gtk_page_setup_new ();
 
   if (!gtk_page_setup_load_key_file (setup, key_file, group_name, error))
@@ -704,7 +724,7 @@ gboolean
 gtk_page_setup_to_file (GtkPageSetup  *setup,
 		        const char    *file_name,
 			GError       **error)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_to_file  \n");
   GKeyFile *key_file;
   gboolean retval = FALSE;
   char *data = NULL;
@@ -733,7 +753,7 @@ out:
 static char *
 enum_to_string (GType type,
                 guint enum_value)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> enum_to_string  \n");
   GEnumClass *enum_class;
   GEnumValue *value;
   char *retval = NULL;
@@ -762,7 +782,7 @@ void
 gtk_page_setup_to_key_file (GtkPageSetup *setup,
 			    GKeyFile     *key_file,
 			    const char   *group_name)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_to_key_file  \n");
   GtkPaperSize *paper_size;
   char *orientation;
 
@@ -803,7 +823,7 @@ gtk_page_setup_to_key_file (GtkPageSetup *setup,
  */
 GVariant *
 gtk_page_setup_to_gvariant (GtkPageSetup *setup)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_to_gvariant  \n");
   GtkPaperSize *paper_size;
   GVariant *variant;
   int i;
@@ -844,7 +864,7 @@ gtk_page_setup_to_gvariant (GtkPageSetup *setup)
  */
 GtkPageSetup *
 gtk_page_setup_new_from_gvariant (GVariant *variant)
-{
+{g_print("yash kumar kasaudhan: gtkpagesetup.c -> gtk_page_setup_new_from_gvairant  \n");
   GtkPageSetup *setup;
   const char *orientation;
   double margin;

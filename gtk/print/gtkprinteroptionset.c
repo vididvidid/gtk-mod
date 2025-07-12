@@ -41,6 +41,7 @@ G_DEFINE_TYPE (GtkPrinterOptionSet, gtk_printer_option_set, G_TYPE_OBJECT)
 static void
 gtk_printer_option_set_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_finalize \n");
   GtkPrinterOptionSet *set = GTK_PRINTER_OPTION_SET (object);
 
   g_hash_table_destroy (set->hash);
@@ -53,6 +54,7 @@ gtk_printer_option_set_finalize (GObject *object)
 static void
 gtk_printer_option_set_init (GtkPrinterOptionSet *set)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_init \n");
   set->array = g_ptr_array_new ();
   set->hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
@@ -60,6 +62,7 @@ gtk_printer_option_set_init (GtkPrinterOptionSet *set)
 static void
 gtk_printer_option_set_class_init (GtkPrinterOptionSetClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_class_init \n");
   GObjectClass *gobject_class = (GObjectClass *)class;
 
   gobject_class->finalize = gtk_printer_option_set_finalize;
@@ -78,12 +81,14 @@ gtk_printer_option_set_class_init (GtkPrinterOptionSetClass *class)
 static void
 emit_changed (GtkPrinterOptionSet *set)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> emit_changed \n");
   g_signal_emit (set, signals[CHANGED], 0);
 }
 
 GtkPrinterOptionSet *
 gtk_printer_option_set_new (void)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_new \n");
   return g_object_new (GTK_TYPE_PRINTER_OPTION_SET, NULL);
 }
 
@@ -91,6 +96,7 @@ void
 gtk_printer_option_set_remove (GtkPrinterOptionSet *set,
 			       GtkPrinterOption    *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_remove \n");
   int i;
   
   for (i = 0; i < set->array->len; i++)
@@ -111,6 +117,7 @@ void
 gtk_printer_option_set_add (GtkPrinterOptionSet *set,
 			    GtkPrinterOption    *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_add \n");
   g_object_ref (option);
   
   if (gtk_printer_option_set_lookup (set, option->name))
@@ -125,6 +132,7 @@ GtkPrinterOption *
 gtk_printer_option_set_lookup (GtkPrinterOptionSet *set,
 			       const char          *name)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_lookup \n");
   gpointer ptr;
 
   ptr = g_hash_table_lookup (set->hash, name);
@@ -135,6 +143,8 @@ gtk_printer_option_set_lookup (GtkPrinterOptionSet *set,
 void
 gtk_printer_option_set_clear_conflicts (GtkPrinterOptionSet *set)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_clear_conflicts \n");
+
   gtk_printer_option_set_foreach (set,
 				  (GtkPrinterOptionSetFunc)gtk_printer_option_clear_has_conflict,
 				  NULL);
@@ -151,6 +161,7 @@ gtk_printer_option_set_clear_conflicts (GtkPrinterOptionSet *set)
 GList *
 gtk_printer_option_set_get_groups (GtkPrinterOptionSet *set)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_get_groups \n");
   GtkPrinterOption *option;
   GList *list = NULL;
   int i;
@@ -172,6 +183,7 @@ gtk_printer_option_set_foreach_in_group (GtkPrinterOptionSet     *set,
 					 GtkPrinterOptionSetFunc  func,
 					 gpointer                 user_data)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_foreach_in_group \n");
   GtkPrinterOption *option;
   int i;
 
@@ -189,5 +201,7 @@ gtk_printer_option_set_foreach (GtkPrinterOptionSet *set,
 				GtkPrinterOptionSetFunc func,
 				gpointer user_data)
 {
+
+g_print("yash kumar kasaudhan: gtkprinteroptionset.c -> gtk_printer_option_set_foreach \n");
   gtk_printer_option_set_foreach_in_group (set, NULL, func, user_data);
 }

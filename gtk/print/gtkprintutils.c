@@ -23,6 +23,7 @@ double
 _gtk_print_convert_to_mm (double len, 
 			  GtkUnit unit)
 {
+  g_print("yash kumar kasaudhan: gtkprintutils.c -> _gtk_print_convert_to_mm\n");
   switch (unit)
     {
     case GTK_UNIT_MM:
@@ -43,6 +44,7 @@ double
 _gtk_print_convert_from_mm (double len, 
 			    GtkUnit unit)
 {
+  g_print("yash kumar kasaudhan: gtkprintutils.c -> _gtk_print_convert_from_mm");
   switch (unit)
     {
     case GTK_UNIT_MM:

@@ -87,7 +87,9 @@ static gboolean gtk_printer_option_widget_mnemonic_activate (GtkWidget *widget,
 
 static void
 gtk_printer_option_widget_class_init (GtkPrinterOptionWidgetClass *class)
+	
 {
+	g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_class_init  \n");
   GObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
@@ -120,6 +122,7 @@ gtk_printer_option_widget_class_init (GtkPrinterOptionWidgetClass *class)
 static void
 gtk_printer_option_widget_init (GtkPrinterOptionWidget *widget)
 {
+	g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_init \n");
   widget->priv = gtk_printer_option_widget_get_instance_private (widget);
 
   gtk_box_set_spacing (GTK_BOX (widget), 12);
@@ -128,6 +131,7 @@ gtk_printer_option_widget_init (GtkPrinterOptionWidget *widget)
 static void
 gtk_printer_option_widget_finalize (GObject *object)
 {
+	g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_finalize \n");
   GtkPrinterOptionWidget *widget = GTK_PRINTER_OPTION_WIDGET (object);
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
@@ -148,6 +152,7 @@ gtk_printer_option_widget_set_property (GObject         *object,
 					const GValue    *value,
 					GParamSpec      *pspec)
 {
+	g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_set_property \n");
   GtkPrinterOptionWidget *widget;
 
   widget = GTK_PRINTER_OPTION_WIDGET (object);
@@ -169,6 +174,7 @@ gtk_printer_option_widget_get_property (GObject    *object,
 					GValue     *value,
 					GParamSpec *pspec)
 {
+	g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_get_property  \n");
   GtkPrinterOptionWidget *widget = GTK_PRINTER_OPTION_WIDGET (object);
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
@@ -187,6 +193,7 @@ static gboolean
 gtk_printer_option_widget_mnemonic_activate (GtkWidget *widget,
 					     gboolean   group_cycling)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_mnemonic_activate \n");
   GtkPrinterOptionWidget *powidget = GTK_PRINTER_OPTION_WIDGET (widget);
   GtkPrinterOptionWidgetPrivate *priv = powidget->priv;
 
@@ -205,12 +212,15 @@ gtk_printer_option_widget_mnemonic_activate (GtkWidget *widget,
 static void
 emit_changed (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> emit_changed \n");
   g_signal_emit (widget, signals[CHANGED], 0);
 }
 
 GtkWidget *
 gtk_printer_option_widget_new (GtkPrinterOption *source)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_otion_widget_new \n");
+
   return g_object_new (GTK_TYPE_PRINTER_OPTION_WIDGET, "source", source, NULL);
 }
 
@@ -218,6 +228,7 @@ static void
 source_changed_cb (GtkPrinterOption *source,
 		   GtkPrinterOptionWidget  *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> source-changed_cb \n");
   update_widgets (widget);
   emit_changed (widget);
 }
@@ -226,6 +237,7 @@ void
 gtk_printer_option_widget_set_source (GtkPrinterOptionWidget *widget,
 				      GtkPrinterOption       *source)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_set_source \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
   if (source)
@@ -253,6 +265,7 @@ gtk_printer_option_widget_set_source (GtkPrinterOptionWidget *widget,
 static void
 combo_box_set_model (GtkWidget *combo_box)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_set_model \n");
   GListStore *store;
 
   store = g_list_store_new (GTK_TYPE_STRING_PAIR);
@@ -264,12 +277,14 @@ static void
 setup_no_item (GtkSignalListItemFactory *factory,
                GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> setup_no_item \n");
 }
 
 static void
 setup_list_item (GtkSignalListItemFactory *factory,
                  GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> setup_list_item \n");
   GtkWidget *label;
 
   label = gtk_label_new ("");
@@ -281,6 +296,7 @@ static void
 bind_list_item (GtkSignalListItemFactory *factory,
                 GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> bind_list_item \n");
   GtkStringPair *pair;
   GtkWidget *label;
 
@@ -293,6 +309,7 @@ bind_list_item (GtkSignalListItemFactory *factory,
 static void
 combo_box_set_view (GtkWidget *combo_box)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_set_view \n");
   GtkListItemFactory *factory;
 
   factory = gtk_signal_list_item_factory_new ();
@@ -307,6 +324,7 @@ selected_changed (GtkDropDown *dropdown,
                   GParamSpec *pspec,
                   gpointer data)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> selected_changed \n");
   GListModel *model;
   guint selected;
   GtkStringPair *pair;
@@ -329,6 +347,7 @@ selected_changed (GtkDropDown *dropdown,
 static GtkWidget *
 combo_box_entry_new (void)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_entry_new \n");
   GtkWidget *hbox, *entry, *button;
   GtkListItemFactory *factory;
 
@@ -361,6 +380,7 @@ combo_box_entry_new (void)
 static GtkWidget *
 combo_box_new (void)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_new \n");
   GtkWidget *combo_box;
 
   combo_box = gtk_drop_down_new (NULL, NULL);
@@ -376,6 +396,7 @@ combo_box_append (GtkWidget   *combo,
                   const char *display_text,
                   const char *value)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combox_box_append  \n");
   GtkWidget *dropdown;
   GListModel *model;
   GtkStringPair *object;
@@ -396,6 +417,7 @@ static void
 combo_box_set (GtkWidget   *combo,
                const char *value)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_set \n");
   GtkWidget *dropdown;
   GListModel *model;
   guint i;
@@ -423,6 +445,7 @@ combo_box_set (GtkWidget   *combo,
 static char *
 combo_box_get (GtkWidget *combo, gboolean *custom)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_box_get \n");
   GtkWidget *dropdown;
   GListModel *model;
   guint selected;
@@ -476,6 +499,7 @@ combo_box_get (GtkWidget *combo, gboolean *custom)
 static void
 deconstruct_widgets (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> deconstruct_widgets \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
   g_clear_pointer (&priv->check, gtk_widget_unparent);
@@ -490,6 +514,7 @@ static void
 check_toggled_cb (GtkCheckButton         *check_button,
 		  GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> check_toggled_cb \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
   g_signal_handler_block (priv->source, priv->source_changed_handler);
@@ -504,6 +529,7 @@ dialog_response_callback (GObject *source,
                           GAsyncResult *result,
                           gpointer data)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> dialog_response_callback \n");
   GtkFileDialog *dialog = GTK_FILE_DIALOG (source);
   GtkPrinterOptionWidget *widget = data;
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
@@ -566,6 +592,7 @@ static void
 filesave_choose_cb (GtkWidget              *button,
                     GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> filesave_choose_cb \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   GtkFileDialog *dialog;
 
@@ -600,6 +627,7 @@ filter_numeric (const char *val,
 		gboolean     allow_dec,
                 gboolean    *changed_out)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> filter_numeric \n");
   char *filtered_val;
   int i, j;
   int len = strlen (val);
@@ -640,7 +668,9 @@ filter_numeric (const char *val,
 
 static void
 handle_combo_entry_change (GtkPrinterOptionWidget *widget)
+
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> handle_combo_entry_change \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   char *value;
   char *filtered_val = NULL;
@@ -716,6 +746,7 @@ combo_changed_cb (GtkWidget              *combo,
                   GParamSpec             *pspec,
                   GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> combo_changed_cb \n");
   handle_combo_entry_change (widget);
 }
 
@@ -723,13 +754,16 @@ static void
 comboentry_changed_cb (GtkEditable            *editable,
                        GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> comboentry_changed-cb \n");
   handle_combo_entry_change (widget);
 }
 
 static void
 entry_changed_cb (GtkWidget              *entry,
 		  GtkPrinterOptionWidget *widget)
+
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> entry_changed_cb \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   const char *value;
 
@@ -746,6 +780,7 @@ static void
 radio_changed_cb (GtkWidget              *button,
 		  GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> radio_changed_cb \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   char *value;
 
@@ -761,6 +796,7 @@ static void
 alternative_set (GtkWidget   *box,
                  const char *value)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> alternative_set  \n");
   GtkWidget *child;
 
   for (child = gtk_widget_get_first_child (box);
@@ -784,6 +820,7 @@ alternative_append (GtkWidget              *box,
 		    GtkPrinterOptionWidget *widget,
 		    GtkWidget              **group)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> alternative_append \n");
   GtkWidget *button;
 
   button = gtk_check_button_new_with_label (label);
@@ -802,6 +839,7 @@ alternative_append (GtkWidget              *box,
 static void
 construct_widgets (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> construct_widgets \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   GtkPrinterOption *source;
   char *text;
@@ -950,6 +988,7 @@ construct_widgets (GtkPrinterOptionWidget *widget)
 static char *
 trim_long_filename (const char *filename)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> trim_long_filename \n");
   const char *home;
   int len, offset;
   char *result;
@@ -985,6 +1024,7 @@ trim_long_filename (const char *filename)
 static void
 update_widgets (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> update_widgets \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
   GtkPrinterOption *source;
 
@@ -1065,18 +1105,21 @@ update_widgets (GtkPrinterOptionWidget *widget)
 gboolean
 gtk_printer_option_widget_has_external_label (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_has_external_label \n");
   return widget->priv->label != NULL;
 }
 
 GtkWidget *
 gtk_printer_option_widget_get_external_label (GtkPrinterOptionWidget  *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_get_external_label  \n");
   return widget->priv->label;
 }
 
 const char *
 gtk_printer_option_widget_get_value (GtkPrinterOptionWidget *widget)
 {
+g_print("yash kumar kasaudhan: gtkprinteroptionwidget.c -> gtk_printer_option_widget_get_value \n");
   GtkPrinterOptionWidgetPrivate *priv = widget->priv;
 
   if (priv->source)

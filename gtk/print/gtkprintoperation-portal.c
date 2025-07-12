@@ -53,6 +53,7 @@ static char *
 get_portal_request_path (GDBusConnection  *connection,
                          char            **token)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> get_portal_request_path \n");
   char *sender;
   int i;
   char *path;
@@ -92,6 +93,7 @@ typedef struct {
 static void
 portal_data_free (gpointer data)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> portal_data_free \n");
   PortalData *portal = data;
 
   if (portal->parent && portal->handle)
@@ -123,6 +125,7 @@ typedef struct {
 static void
 op_portal_free (GtkPrintOperationPortal *op_portal)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> op_portal_free \n");
   g_clear_object (&op_portal->proxy);
   g_clear_object (&op_portal->job);
   if (op_portal->loop)
@@ -135,6 +138,7 @@ portal_start_page (GtkPrintOperation *op,
                    GtkPrintContext   *print_context,
                    GtkPageSetup      *page_setup)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> portal_start_page \n");
   GtkPrintOperationPortal *op_portal = op->priv->platform_data;
   GtkPaperSize *paper_size;
   cairo_surface_type_t type;
@@ -190,6 +194,7 @@ static void
 portal_end_page (GtkPrintOperation *op,
                  GtkPrintContext   *print_context)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> portal_end_page \n");
   cairo_t *cr;
 
   cr = gtk_print_context_get_cairo_context (print_context);
@@ -205,6 +210,7 @@ print_file_done (GObject *source,
                  GAsyncResult *result,
                  gpointer data)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> print_file_done \n");
   GtkPrintOperation *op = data;
   GtkPrintOperationPortal *op_portal = op->priv->platform_data;
   GError *error = NULL;
@@ -234,6 +240,7 @@ portal_job_complete (GtkPrintJob  *job,
                      gpointer      data,
                      const GError *error)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> portal_job_complete \n");
   GtkPrintOperation *op = data;
   GtkPrintOperationPortal *op_portal = op->priv->platform_data;
   GtkPrintSettings *settings;
@@ -287,6 +294,7 @@ portal_end_run (GtkPrintOperation *op,
                 gboolean           wait,
                 gboolean           cancelled)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> portal_end_run \n");
   GtkPrintOperationPortal *op_portal = op->priv->platform_data;
 
   cairo_surface_finish (op_portal->surface);
@@ -319,6 +327,7 @@ finish_print (PortalData        *portal,
               GtkPageSetup      *page_setup,
               GtkPrintSettings  *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> * \n");
   GtkPrintOperation *op = portal->op;
   GtkPrintOperationPrivate *priv = op->priv;
   GtkPrintJob *job;
@@ -417,6 +426,7 @@ prepare_print_response (GDBusConnection *connection,
                         GVariant        *parameters,
                         gpointer         data)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> prepare_print_response \n");
   PortalData *portal = data;
   guint32 response;
   GVariant *options = NULL;
@@ -496,6 +506,7 @@ prepare_print_called (GObject      *source,
                       GAsyncResult *result,
                       gpointer      data)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> prepare_print_called \n");
   PortalData *portal = data;
   GError *error = NULL;
   const char *handle = NULL;
@@ -540,6 +551,7 @@ create_portal_data (GtkPrintOperation          *op,
                     GtkWindow                  *parent,
                     GtkPrintOperationPrintFunc  print_cb)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> create_portal_data \n");
   GDBusProxy *proxy;
   PortalData *portal;
   guint signal_id;
@@ -592,6 +604,7 @@ window_handle_exported (GtkWindow  *window,
                         const char *handle_str,
                         gpointer    user_data)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> window_handle_exported \n");
   PortalData *portal = user_data;
 
   portal->handle = g_strdup (handle_str);
@@ -615,6 +628,7 @@ static void
 call_prepare_print (GtkPrintOperation *op,
                     PortalData        *portal)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> call_prepare_print \n");
   GtkPrintOperationPrivate *priv = op->priv;
   GVariantBuilder opt_builder;
   char *token;
@@ -686,6 +700,7 @@ gtk_print_operation_portal_run_dialog (GtkPrintOperation *op,
                                        GtkWindow         *parent,
                                        gboolean          *do_print)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> gtk_print_operation_portal_run_dialog \n");
   PortalData *portal;
   GtkPrintOperationResult result;
 
@@ -711,6 +726,7 @@ gtk_print_operation_portal_run_dialog_async (GtkPrintOperation          *op,
                                              GtkWindow                  *parent,
                                              GtkPrintOperationPrintFunc  print_cb)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> gtk_print_operation_portal_run_dialog_async \n");
   PortalData *portal;
 
   portal = create_portal_data (op, parent, print_cb);
@@ -726,6 +742,7 @@ gtk_print_operation_portal_launch_preview (GtkPrintOperation *op,
                                            GtkWindow         *parent,
                                            const char        *filename)
 {
+g_print("yash kumar kasaudhan: gtkprintoperation-portal.c -> gtk_pritn_operation_portal_launch_preview \n");
   GFile *file;
   GtkFileLauncher *launcher;
 

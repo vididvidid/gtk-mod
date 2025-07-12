@@ -97,6 +97,7 @@ static void populate_dialog                        (GtkCustomPaperUnixDialog *di
 GtkUnit
 _gtk_print_get_default_user_units (void)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> _gtk_print_get_default_user_units \n");
   /* Translate to the default units to use for presenting
    * lengths to the user. Translate to default:inch if you
    * want inches, otherwise translate to default:mm.
@@ -125,6 +126,7 @@ _gtk_print_get_default_user_units (void)
 static char *
 custom_paper_get_legacy_filename (void)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> custom_paper_get_legacy_filename \n");
   char *filename;
 
   filename = g_build_filename (g_get_home_dir (),
@@ -136,6 +138,7 @@ custom_paper_get_legacy_filename (void)
 static char *
 custom_paper_get_filename (void)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> custom_paper_get_filename  \n");
   char *filename;
 
   filename = g_build_filename (g_get_user_config_dir (),
@@ -148,6 +151,7 @@ custom_paper_get_filename (void)
 GList *
 _gtk_load_custom_papers (void)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> _gtk_load_custom_papers \n");
   GKeyFile *keyfile;
   char *filename;
   char **groups;
@@ -194,6 +198,7 @@ _gtk_load_custom_papers (void)
 void
 gtk_print_load_custom_papers (GListStore *store)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_pritn_load_custom_papers \n");
   GList *papers, *p;
   GtkPageSetup *page_setup;
 
@@ -213,6 +218,7 @@ gtk_print_load_custom_papers (GListStore *store)
 static void
 gtk_print_save_custom_papers (GListStore *store)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_pritn_save_custom_papers \n");
   GKeyFile *keyfile;
   char *filename, *data, *parentdir;
   gsize len;
@@ -248,6 +254,7 @@ gtk_print_save_custom_papers (GListStore *store)
 static void
 gtk_custom_paper_unix_dialog_class_init (GtkCustomPaperUnixDialogClass *class)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_custom_paper_unix_dialog_class_init \n");
   G_OBJECT_CLASS (class)->constructed = gtk_custom_paper_unix_dialog_constructed;
   G_OBJECT_CLASS (class)->finalize = gtk_custom_paper_unix_dialog_finalize;
 }
@@ -257,6 +264,7 @@ custom_paper_dialog_response_cb (GtkDialog *dialog,
                                  int        response,
                                  gpointer   user_data)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> custom_paper_dialog_response_cb \n");
   GtkCustomPaperUnixDialog *self = GTK_CUSTOM_PAPER_UNIX_DIALOG (dialog);
 
   gtk_print_save_custom_papers (self->custom_paper_list);
@@ -265,12 +273,14 @@ custom_paper_dialog_response_cb (GtkDialog *dialog,
 static gboolean
 match_func (gpointer item, gpointer user_data)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> match_func \n");
   return !gtk_printer_is_virtual (GTK_PRINTER (item));
 }
 
 static void
 gtk_custom_paper_unix_dialog_init (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_custom_paper_unix_dialog_init \n");
   GtkPrinter *printer;
   GListStore *printer_list;
   GListStore *printer_list_list;
@@ -310,6 +320,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 gtk_custom_paper_unix_dialog_constructed (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_custom_paper_unix_dialog_constructed \n");
   gboolean use_header;
 
   G_OBJECT_CLASS (gtk_custom_paper_unix_dialog_parent_class)->constructed (object);
@@ -329,6 +340,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 gtk_custom_paper_unix_dialog_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> gtk_custom_paper_unix_dialog_finalize  \n");
   GtkCustomPaperUnixDialog *dialog = GTK_CUSTOM_PAPER_UNIX_DIALOG (object);
   GList *node;
 
@@ -371,6 +383,7 @@ GtkWidget *
 _gtk_custom_paper_unix_dialog_new (GtkWindow   *parent,
                                    const char *title)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> _gtk_custom_paper_unix_dialog_new  \n");
   GtkWidget *result;
 
   if (title == NULL)
@@ -390,6 +403,7 @@ _gtk_custom_paper_unix_dialog_new (GtkWindow   *parent,
 static void
 load_print_backends (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> load_print_backends \n");
   GListModel *full_list;
   GListStore *printer_list_list;
   GList *node;
@@ -414,6 +428,7 @@ new_unit_widget (GtkCustomPaperUnixDialog *dialog,
                  GtkUnit                   unit,
                  GtkWidget                *mnemonic_label)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> new_unit_widget  \n");
   GtkWidget *hbox, *button, *label;
   UnitWidget *data;
 
@@ -453,6 +468,7 @@ new_unit_widget (GtkCustomPaperUnixDialog *dialog,
 static double
 unit_widget_get (GtkWidget *unit_widget)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> unit_widget_get  \n");
   UnitWidget *data = g_object_get_data (G_OBJECT (unit_widget), "unit-data");
   return _gtk_print_convert_to_mm (gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->spin_button)),
                                    data->display_unit);
@@ -462,6 +478,7 @@ static void
 unit_widget_set (GtkWidget *unit_widget,
                  double     value)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> unit_widget_set  \n");
   UnitWidget *data;
 
   data = g_object_get_data (G_OBJECT (unit_widget), "unit-data");
@@ -472,6 +489,7 @@ unit_widget_set (GtkWidget *unit_widget,
 static void
 update_combo_sensitivity_from_printers (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> update_combo_sensitivity_from_printers  \n");
   gboolean sensitive = FALSE;
 
   if (g_list_model_get_n_items (dialog->printer_list) > 1)
@@ -483,6 +501,7 @@ update_combo_sensitivity_from_printers (GtkCustomPaperUnixDialog *dialog)
 static void
 update_custom_widgets_from_list (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> update_custom_widgets_from_list  \n");
   GListModel *model;
   GtkPageSetup *page_setup;
 
@@ -522,12 +541,14 @@ selected_custom_paper_changed (GObject                  *list,
                                GParamSpec               *pspec,
                                GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> selected_custom_paper_changed \n");
   update_custom_widgets_from_list (dialog);
 }
 
 static void
 unit_widget_changed (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> unit_widget_changed \n");
   double w, h, top, bottom, left, right;
   GListModel *model;
   GtkPageSetup *page_setup;
@@ -563,6 +584,8 @@ static gboolean
 custom_paper_name_used (GtkCustomPaperUnixDialog *dialog,
                         const char               *name)
 {
+
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> custom_paper_name_used \n");
   GtkPageSetup *page_setup;
   GtkPaperSize *paper_size;
   guint i;
@@ -585,6 +608,7 @@ custom_paper_name_used (GtkCustomPaperUnixDialog *dialog,
 static void
 add_custom_paper (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> add_custom_paper \n");
   GtkPageSetup *page_setup;
   GtkPaperSize *paper_size;
   char *name;
@@ -618,6 +642,7 @@ add_custom_paper (GtkCustomPaperUnixDialog *dialog)
 static void
 remove_custom_paper (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> remove_custom_paper \n");
   GListModel *model;
   guint selected;
 
@@ -631,6 +656,7 @@ static void
 set_margins_from_printer (GtkCustomPaperUnixDialog *dialog,
                           GtkPrinter               *printer)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> set_margins_from_printer  \n");
   double top, bottom, left, right;
 
   top = bottom = left = right = 0;
@@ -653,6 +679,7 @@ get_margins_finished_callback (GtkPrinter               *printer,
                                gboolean                  success,
                                GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> get_margins_finished_callback \n");
   g_signal_handler_disconnect (dialog->request_details_printer,
                                dialog->request_details_tag);
   g_object_unref (dialog->request_details_printer);
@@ -668,6 +695,7 @@ get_margins_finished_callback (GtkPrinter               *printer,
 static void
 margins_from_printer_changed (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> margins_from_printer_changed \n");
   guint selected;
   GtkPrinter *printer;
 
@@ -713,6 +741,7 @@ static GtkWidget *
 wrap_in_frame (const char *label,
                GtkWidget   *child)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> wrap_in_frame \n");
   GtkWidget *frame, *label_widget;
   char *bold_text;
 
@@ -740,6 +769,7 @@ static void
 setup_item (GtkSignalListItemFactory *factory,
             GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> setup_item  \n");
   gtk_list_item_set_child (item, gtk_editable_label_new (""));
 }
 
@@ -748,6 +778,7 @@ label_changed (GObject     *object,
                GParamSpec  *pspec,
                GtkListItem *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> label_changed  \n");
   GtkPageSetup *page_setup;
   GtkPaperSize *paper_size;
   const char *new_text;
@@ -768,6 +799,7 @@ state_changed (GtkWidget     *item,
                GtkStateFlags  old_state,
                GtkWidget     *label)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> state_changed  \n");
   gboolean selected;
 
   selected = (gtk_widget_get_state_flags (item) & GTK_STATE_FLAG_SELECTED) != 0;
@@ -778,6 +810,7 @@ static void
 bind_item (GtkSignalListItemFactory *factory,
            GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> bind_item  \n");
   GtkPageSetup *page_setup;
   GtkPaperSize *paper_size;
   GtkWidget *label;
@@ -798,6 +831,7 @@ static void
 unbind_item (GtkSignalListItemFactory *factory,
              GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> unbind_item  \n");
   GtkWidget *label;
 
   label = gtk_list_item_get_child (item);
@@ -809,6 +843,7 @@ static void
 setup_printer_item (GtkSignalListItemFactory *factory,
                     GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> setup_printer_item  \n");
   GtkWidget *label;
 
   label = gtk_label_new ("");
@@ -820,6 +855,7 @@ static void
 bind_printer_item (GtkSignalListItemFactory *factory,
                    GtkListItem              *item)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> bind_printer_item  \n");
   GtkPrinter *printer;
   GtkWidget *label;
 
@@ -832,6 +868,7 @@ bind_printer_item (GtkSignalListItemFactory *factory,
 static void
 populate_dialog (GtkCustomPaperUnixDialog *dialog)
 {
+g_print("yash kumar kasaudhan: gtkcustompaperunixdialog.c -> populate_dialog  \n");
   GtkDialog *cpu_dialog = GTK_DIALOG (dialog);
   GtkWidget *content_area;
   GtkWidget *grid, *label, *widget, *frame, *combo;

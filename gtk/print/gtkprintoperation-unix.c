@@ -76,6 +76,7 @@ unix_start_page (GtkPrintOperation *op,
                  GtkPrintContext   *print_context,
                  GtkPageSetup      *page_setup)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   unix_start_page   \n");
   GtkPrintOperationUnix *op_unix;
   GtkPaperSize *paper_size;
   cairo_surface_type_t type;
@@ -132,6 +133,7 @@ static void
 unix_end_page (GtkPrintOperation *op,
                GtkPrintContext   *print_context)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> unix_end_page     \n");
   cairo_t *cr;
 
   cr = gtk_print_context_get_cairo_context (print_context);
@@ -145,6 +147,8 @@ unix_end_page (GtkPrintOperation *op,
 static void
 op_unix_free (GtkPrintOperationUnix *op_unix)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> op_unix_free     \n");
   if (op_unix->job)
     {
       if (op_unix->job_status_changed_tag > 0)
@@ -163,6 +167,8 @@ shell_command_substitute_file (const char *cmd,
                                gboolean    *pdf_filename_replaced,
                                gboolean    *settings_filename_replaced)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   shell_command_substitue_file   \n");
   const char *inptr, *start;
   GString *final;
 
@@ -217,6 +223,8 @@ gtk_print_operation_unix_launch_preview (GtkPrintOperation *op,
                                          GtkWindow         *parent,
                                          const char        *filename)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  gtk_print_operation_unix_launch_preview    \n");
   GAppInfo *appinfo;
   GdkAppLaunchContext *context;
   char *cmd;
@@ -359,6 +367,8 @@ unix_finish_send  (GtkPrintJob  *job,
                    gpointer      user_data,
                    const GError *error)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   unix_finish_send   \n");
   GtkPrintOperation *op = (GtkPrintOperation *) user_data;
   GtkPrintOperationUnix *op_unix = op->priv->platform_data;
 
@@ -378,6 +388,8 @@ unix_end_run (GtkPrintOperation *op,
               gboolean           wait,
               gboolean           cancelled)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  unix_end_run    \n");
   GtkPrintOperationUnix *op_unix = op->priv->platform_data;
 
   cairo_surface_finish (op_unix->surface);
@@ -412,6 +424,7 @@ static void
 job_status_changed_cb (GtkPrintJob       *job,
                        GtkPrintOperation *op)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  job_status_changes_cb   \n");
   _gtk_print_operation_set_status (op, gtk_print_job_get_status (job), NULL);
 }
 
@@ -421,6 +434,8 @@ print_setup_changed_cb (GtkPrintUnixDialog *print_dialog,
                         GParamSpec         *pspec,
                         gpointer            user_data)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  print_setup_changed_cb    \n");
   GtkPageSetup             *page_setup;
   GtkPrintSettings         *print_settings;
   GtkPrintOperation        *op = user_data;
@@ -440,6 +455,7 @@ static GtkWidget *
 get_print_dialog (GtkPrintOperation *op,
                   GtkWindow         *parent)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   get_print_dialog   \n");
   GtkPrintOperationPrivate *priv = op->priv;
   GtkWidget *pd, *label;
   const char *custom_tab_label;
@@ -517,6 +533,8 @@ typedef struct
 static void
 print_response_data_free (gpointer data)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  print_response_data_free   \n");
   PrintResponseData *rdata = data;
 
   g_object_unref (rdata->op);
@@ -530,6 +548,7 @@ finish_print (PrintResponseData *rdata,
               GtkPrintSettings  *settings,
               gboolean           page_setup_set)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   finsih_print   \n");
   GtkPrintOperation *op = rdata->op;
   GtkPrintOperationPrivate *priv = op->priv;
   GtkPrintJob *job;
@@ -569,7 +588,7 @@ finish_print (PrintResponseData *rdata,
 
           op_unix = g_new0 (GtkPrintOperationUnix, 1);
           priv->platform_data = op_unix;
-          priv->free_platform_data = (GDestroyNotify) op_unix_free;
+          // priv->free_platform_data = (GDestroyNotify) op_unix_free;
           op_unix->parent = rdata->parent;
 
           priv->start_page = unix_start_page;
@@ -618,11 +637,16 @@ finish_print (PrintResponseData *rdata,
     rdata->destroy (rdata);
 }
 
+
+
+
 static void
 handle_print_response (GtkWidget *dialog,
                        int        response,
                        gpointer   data)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> handle_print_response     \n");
   GtkPrintUnixDialog *pd = GTK_PRINT_UNIX_DIALOG (dialog);
   PrintResponseData *rdata = data;
   GtkPrintSettings *settings = NULL;
@@ -665,10 +689,14 @@ handle_print_response (GtkWidget *dialog,
   if (rdata->loop)
     g_main_loop_quit (rdata->loop);
 
-  finish_print (rdata, printer, page_setup, settings, page_setup_set);
+  finish_print(rdata, printer, page_setup, settings, page_setup_set);
 
   if (settings)
-    g_object_unref (settings);
+    g_object_unref(settings);
+
+
+  // if (!rdata->do_preview)
+  //   gtk_window_destroy(GTK_WINDOW(pd));
 
   gtk_window_destroy (GTK_WINDOW (pd));
 }
@@ -678,6 +706,8 @@ static void
 found_printer (GtkPrinter        *printer,
                PrintResponseData *rdata)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  found_printer    \n");
   GtkPrintOperation *op = rdata->op;
   GtkPrintOperationPrivate *priv = op->priv;
   GtkPrintSettings *settings = NULL;
@@ -721,6 +751,7 @@ gtk_print_operation_unix_run_dialog_async (GtkPrintOperation          *op,
                                            GtkWindow                  *parent,
                                            GtkPrintOperationPrintFunc  print_cb)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  gtk_print_opreation_unix_run_dialog_async    \n");
   GtkWidget *pd;
   PrintResponseData *rdata;
   const char *printer_name;
@@ -761,6 +792,7 @@ write_preview (void                *closure,
                const unsigned char *data,
                unsigned int         length)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  write_preveiw    \n");
   int fd = GPOINTER_TO_INT (closure);
   gssize written;
 
@@ -786,6 +818,7 @@ write_preview (void                *closure,
 static void
 close_preview (void *data)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  close_preview    \n");
   int fd = GPOINTER_TO_INT (data);
 
   close (fd);
@@ -798,6 +831,7 @@ gtk_print_operation_unix_create_preview_surface (GtkPrintOperation *op,
                                                  double            *dpi_y,
                                                  char             **target)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  gtk_print_operation_unix_create_preview_surface    \n");
   char *filename;
   int fd;
   GtkPaperSize *paper_size;
@@ -834,6 +868,8 @@ gtk_print_operation_unix_preview_start_page (GtkPrintOperation *op,
                                              cairo_surface_t   *surface,
                                              cairo_t           *cr)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   gtk_print_operation_unix_preview_start_page   \n");
 }
 
 static void
@@ -841,6 +877,8 @@ gtk_print_operation_unix_preview_end_page (GtkPrintOperation *op,
                                            cairo_surface_t   *surface,
                                            cairo_t           *cr)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   gtk_print_operation_unix_preview_end_page   \n");
   cairo_show_page (cr);
 }
 
@@ -849,6 +887,7 @@ gtk_print_operation_unix_resize_preview_surface (GtkPrintOperation *op,
                                                  GtkPageSetup      *page_setup,
                                                  cairo_surface_t   *surface)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   gtk_print_operation_unix_resize_preview_surface   \n");
 #ifdef CAIRO_HAS_PDF_SURFACE
   double w, h;
 
@@ -864,6 +903,7 @@ gtk_print_operation_unix_run_dialog (GtkPrintOperation *op,
                                      GtkWindow         *parent,
                                      gboolean          *do_print)
  {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   gtk_print_operation_unix_run_dialog   \n");
   GtkWidget *pd;
   PrintResponseData rdata;
   const char *printer_name;
@@ -925,6 +965,7 @@ typedef struct
 static void
 page_setup_data_free (gpointer data)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  page_setup_data_free    \n");
   PageSetupResponseData *rdata = data;
 
   if (rdata->page_setup)
@@ -938,6 +979,7 @@ handle_page_setup_response (GtkWidget *dialog,
                             int        response,
                             gpointer   data)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   handle_page_setup_response   \n");
   GtkPageSetupUnixDialog *psd;
   PageSetupResponseData *rdata = data;
 
@@ -962,6 +1004,7 @@ get_page_setup_dialog (GtkWindow        *parent,
                        GtkPageSetup     *page_setup,
                        GtkPrintSettings *settings)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  get_page_setup_dialog    \n");
   GtkWidget *dialog;
 
   dialog = gtk_page_setup_unix_dialog_new (NULL, parent);
@@ -997,6 +1040,7 @@ gtk_print_run_page_setup_dialog (GtkWindow        *parent,
                                  GtkPageSetup     *page_setup,
                                  GtkPrintSettings *settings)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> gtk_print_run_page_setup_dialog    \n");
   GtkWidget *dialog;
   PageSetupResponseData rdata;
 
@@ -1048,6 +1092,7 @@ gtk_print_run_page_setup_dialog_async (GtkWindow            *parent,
                                        GtkPageSetupDoneFunc  done_cb,
                                        gpointer              data)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> gtk_print_run_page_setup_dialog_async     \n");
   GtkWidget *dialog;
   PageSetupResponseData *rdata;
 
@@ -1084,6 +1129,8 @@ struct _PrinterFinder
 static gboolean
 find_printer_idle (gpointer data)
 {
+
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  find_printer_idle    \n");
   PrinterFinder *finder = data;
   GtkPrinter *printer;
 
@@ -1106,6 +1153,7 @@ find_printer_idle (gpointer data)
 static void
 schedule_finder_callback (PrinterFinder *finder)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  schedule_finder_callback    \n");
   g_assert (!finder->scheduled_callback);
   g_idle_add (find_printer_idle, finder);
   finder->scheduled_callback = TRUE;
@@ -1116,6 +1164,7 @@ printer_added_cb (GtkPrintBackend *backend,
                   GtkPrinter      *printer,
                   PrinterFinder   *finder)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  printer_added_cb    \n");
   if (finder->found_printer)
     return;
 
@@ -1150,6 +1199,7 @@ static void
 printer_list_done_cb (GtkPrintBackend *backend,
                       PrinterFinder   *finder)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  printer_list_done_cb    \n");
   finder->backends = g_list_remove (finder->backends, backend);
 
   g_signal_handlers_disconnect_by_func (backend, printer_added_cb, finder);
@@ -1169,6 +1219,7 @@ static void
 find_printer_init (PrinterFinder   *finder,
                    GtkPrintBackend *backend)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  find_printer_init    \n");
   GList *list;
   GList *node;
 
@@ -1205,6 +1256,7 @@ find_printer_init (PrinterFinder   *finder,
 static void
 printer_finder_free (PrinterFinder *finder)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> printer_finder_free     \n");
   GList *l;
 
   g_free (finder->printer_name);
@@ -1237,6 +1289,7 @@ find_printer (const char *printer,
               GFunc        func,
               gpointer     data)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  find_printer    \n");
   GList *node, *next;
   PrinterFinder *finder;
 
@@ -1270,16 +1323,17 @@ _gtk_print_operation_platform_backend_run_dialog (GtkPrintOperation *op,
                                                   gboolean          *do_print)
 {
   GdkDisplay *display;
+ g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> _gtk_print_operation_platform_backend_run_dialog\n");
+  return gtk_print_operation_unix_run_dialog(op,show_dialog,parent,do_print);
+  // if (parent)
+  //   display = gtk_widget_get_display (GTK_WIDGET (parent));
+  // else
+  //   display = gdk_display_get_default ();
 
-  if (parent)
-    display = gtk_widget_get_display (GTK_WIDGET (parent));
-  else
-    display = gdk_display_get_default ();
-
-  if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
-    return gtk_print_operation_portal_run_dialog (op, show_dialog, parent, do_print);
-  else
-    return gtk_print_operation_unix_run_dialog (op, show_dialog, parent, do_print);
+  // if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
+  //   return gtk_print_operation_portal_run_dialog (op, show_dialog, parent, do_print);
+  // else
+  //   return gtk_print_operation_unix_run_dialog (op, show_dialog, parent, do_print);
 }
 
 void
@@ -1289,16 +1343,17 @@ _gtk_print_operation_platform_backend_run_dialog_async (GtkPrintOperation       
                                                         GtkPrintOperationPrintFunc  print_cb)
 {
   GdkDisplay *display;
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> _gtk_print_operation_platform_backend_run_dialog_async\n");
+  gtk_print_operation_unix_run_dialog_async(op,show_dialog,parent,print_cb);
+  // if (parent)
+  //   display = gtk_widget_get_display (GTK_WIDGET (parent));
+  // else
+  //   display = gdk_display_get_default ();
 
-  if (parent)
-    display = gtk_widget_get_display (GTK_WIDGET (parent));
-  else
-    display = gdk_display_get_default ();
-
-  if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
-    gtk_print_operation_portal_run_dialog_async (op, show_dialog, parent, print_cb);
-  else
-    gtk_print_operation_unix_run_dialog_async (op, show_dialog, parent, print_cb);
+  // if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
+  //   gtk_print_operation_portal_run_dialog_async (op, show_dialog, parent, print_cb);
+  // else
+  //   gtk_print_operation_unix_run_dialog_async (op, show_dialog, parent, print_cb);
 }
 
 void
@@ -1307,16 +1362,17 @@ _gtk_print_operation_platform_backend_launch_preview (GtkPrintOperation *op,
                                                       GtkWindow         *parent,
                                                       const char        *filename)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  _gtk_print_operation_platform_backend_launch_preview    \n");
   GdkDisplay *display;
 
-  if (parent)
-    display = gtk_widget_get_display (GTK_WIDGET (parent));
-  else
-    display = gdk_display_get_default ();
+  // if (parent)
+  //   display = gtk_widget_get_display (GTK_WIDGET (parent));
+  // else
+  //   display = gdk_display_get_default ();
 
-  if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
-    gtk_print_operation_portal_launch_preview (op, surface, parent, filename);
-  else
+  // if (gdk_display_should_use_portal (display, PORTAL_PRINT_INTERFACE, 0))
+  //   gtk_print_operation_portal_launch_preview (op, surface, parent, filename);
+  // else
     gtk_print_operation_unix_launch_preview (op, surface, parent, filename);
 }
 
@@ -1327,6 +1383,7 @@ _gtk_print_operation_platform_backend_create_preview_surface (GtkPrintOperation 
                                                               double            *dpi_y,
                                                               char             **target)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  _gtk_print_operation_platform_backend_create_preview_surface    \n");
 #ifdef CAIRO_HAS_PDF_SURFACE
   return gtk_print_operation_unix_create_preview_surface (op, page_setup, dpi_x, dpi_y, target);
 #else
@@ -1339,6 +1396,7 @@ _gtk_print_operation_platform_backend_resize_preview_surface (GtkPrintOperation 
                                                               GtkPageSetup      *page_setup,
                                                               cairo_surface_t   *surface)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  _gtk_print_operation_platform_backend_resize_preview_surface    \n");
   gtk_print_operation_unix_resize_preview_surface (op, page_setup, surface);
 }
 
@@ -1347,6 +1405,7 @@ _gtk_print_operation_platform_backend_preview_start_page (GtkPrintOperation *op,
                                                           cairo_surface_t   *surface,
                                                           cairo_t           *cr)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  _gtk_print_opreation_platform_backend_preview_start_page    \n");
   gtk_print_operation_unix_preview_start_page (op, surface, cr);
 }
 
@@ -1355,5 +1414,6 @@ _gtk_print_operation_platform_backend_preview_end_page (GtkPrintOperation *op,
                                                         cairo_surface_t   *surface,
                                                         cairo_t           *cr)
 {
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->   _gtk_print_operation_platform_backend_preview_END_PAGE   \n");
   gtk_print_operation_unix_preview_end_page (op, surface, cr);
 }

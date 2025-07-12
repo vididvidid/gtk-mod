@@ -78,6 +78,7 @@ G_DEFINE_BOXED_TYPE (GtkPaperSize, gtk_paper_size,
 static const PaperInfo *
 lookup_paper_info (const char *name)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> lookup_paper_info  \n");
   int lower = 0;
   int upper = G_N_ELEMENTS (standard_names_offsets) - 1;
   int mid;
@@ -104,6 +105,7 @@ parse_media_size (const char *size,
                   double      *width_mm,
                   double      *height_mm)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> parse_media_size  \n");
   const char *p;
   char *e;
   double short_dim, long_dim;
@@ -146,6 +148,7 @@ parse_full_media_size_name (const char   *full_name,
                             double       *width_mm,
                             double       *height_mm)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> parse_full_media_size_name \n");
   const char *p;
   const char *end_of_name;
 
@@ -194,6 +197,7 @@ parse_full_media_size_name (const char   *full_name,
 static GtkPaperSize *
 gtk_paper_size_new_from_info (const PaperInfo *info)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_from_info  \n");
   GtkPaperSize *size;
 
   size = g_new0 (GtkPaperSize, 1);
@@ -221,6 +225,7 @@ gtk_paper_size_new_from_info (const PaperInfo *info)
 GtkPaperSize *
 gtk_paper_size_new (const char *name)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new  \n");
   GtkPaperSize *size;
   char *short_name;
   double width, height;
@@ -272,6 +277,7 @@ gtk_paper_size_new (const char *name)
 static char *
 improve_displayname (const char *name)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> improve_displayname  \n");
   char *p, *p1, *p2, *s;
 
   p = strrchr (name, 'x');
@@ -314,6 +320,7 @@ gtk_paper_size_new_from_ppd (const char *ppd_name,
                              double       width,
                              double       height)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_from_ppd \n");
   char *name;
   const char *lookup_ppd_name;
   char *freeme;
@@ -392,6 +399,7 @@ gtk_paper_size_new_from_ipp (const char *ipp_name,
                              double       width,
                              double       height)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_from_ipp  \n");
   GtkPaperSize *size;
   const char   *name = NULL;
   gboolean      found = FALSE;
@@ -481,6 +489,7 @@ gtk_paper_size_new_custom (const char *name,
                            double       height,
                            GtkUnit      unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_custom  \n");
   GtkPaperSize *size;
   g_return_val_if_fail (name != NULL, NULL);
   g_return_val_if_fail (unit != GTK_UNIT_NONE, NULL);
@@ -508,6 +517,7 @@ gtk_paper_size_new_custom (const char *name,
 GtkPaperSize *
 gtk_paper_size_copy (GtkPaperSize *other)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_copy  \n");
   GtkPaperSize *size;
 
   size = g_new0 (GtkPaperSize, 1);
@@ -537,6 +547,7 @@ gtk_paper_size_copy (GtkPaperSize *other)
 void
 gtk_paper_size_free (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_free \n");
   g_free (size->name);
   g_free (size->display_name);
   g_free (size->ppd_name);
@@ -557,6 +568,7 @@ gboolean
 gtk_paper_size_is_equal (GtkPaperSize *size1,
                          GtkPaperSize *size2)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_is_equal  \n");
   if (size1->info != NULL && size2->info != NULL)
     return size1->info == size2->info;
 
@@ -577,6 +589,7 @@ gtk_paper_size_is_equal (GtkPaperSize *size1,
 GList *
 gtk_paper_size_get_paper_sizes (gboolean include_custom)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_paper_sizes  \n");
   GList *list = NULL;
   guint i;
 /* _gtk_load_custom_papers() only on Unix so far  */
@@ -621,6 +634,7 @@ gtk_paper_size_get_paper_sizes (gboolean include_custom)
 const char *
 gtk_paper_size_get_name (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c ->gtk_paper_size_get_name  \n");
   if (size->name)
     return size->name;
   g_assert (size->info != NULL);
@@ -638,6 +652,7 @@ gtk_paper_size_get_name (GtkPaperSize *size)
 const char *
 gtk_paper_size_get_display_name (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_display_name  \n");
   const char *display_name;
 
   if (size->display_name)
@@ -661,6 +676,7 @@ gtk_paper_size_get_display_name (GtkPaperSize *size)
 const char *
 gtk_paper_size_get_ppd_name (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_ppd_name \n");
   if (size->ppd_name)
     return size->ppd_name;
   if (size->info)
@@ -682,6 +698,7 @@ double
 gtk_paper_size_get_width (GtkPaperSize *size,
                           GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_width  \n");
   return _gtk_print_convert_from_mm (size->width, unit);
 }
 
@@ -699,6 +716,7 @@ double
 gtk_paper_size_get_height (GtkPaperSize *size,
                            GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_height  \n");
   return _gtk_print_convert_from_mm (size->height, unit);
 }
 
@@ -713,6 +731,7 @@ gtk_paper_size_get_height (GtkPaperSize *size,
 gboolean
 gtk_paper_size_is_custom (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_is_custom  \n");
   return size->is_custom;
 }
 
@@ -727,6 +746,7 @@ gtk_paper_size_is_custom (GtkPaperSize *size)
 gboolean
 gtk_paper_size_is_ipp (GtkPaperSize *size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_is_ipp  \n");
   return size->is_ipp;
 }
 
@@ -745,6 +765,7 @@ gtk_paper_size_set_size (GtkPaperSize *size,
                          double        height,
                          GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_set_size  \n");
   g_return_if_fail (size != NULL);
   g_return_if_fail (size->is_custom);
 
@@ -767,6 +788,7 @@ gtk_paper_size_set_size (GtkPaperSize *size,
 const char *
 gtk_paper_size_get_default (void)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_default  \n");
   char *locale, *freeme = NULL;
   const char *paper_size;
 
@@ -834,6 +856,7 @@ double
 gtk_paper_size_get_default_top_margin (GtkPaperSize *size,
                                        GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_default_top_margin  \n");
   double margin;
 
   margin = _gtk_print_convert_to_mm (0.25, GTK_UNIT_INCH);
@@ -853,6 +876,7 @@ double
 gtk_paper_size_get_default_bottom_margin (GtkPaperSize *size,
                                           GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_default_bottom_margin  \n");
   double margin;
   const char *name;
 
@@ -880,6 +904,7 @@ double
 gtk_paper_size_get_default_left_margin (GtkPaperSize *size,
                                         GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_default_left_margin  \n");
   double margin;
 
   margin = _gtk_print_convert_to_mm (0.25, GTK_UNIT_INCH);
@@ -899,6 +924,7 @@ double
 gtk_paper_size_get_default_right_margin (GtkPaperSize *size,
                                          GtkUnit       unit)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_get_defautl_right_margin  \n");
   double margin;
 
   margin = _gtk_print_convert_to_mm (0.25, GTK_UNIT_INCH);
@@ -922,6 +948,7 @@ gtk_paper_size_new_from_key_file (GKeyFile     *key_file,
                                   const char   *group_name,
                                   GError      **error)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_from_key_file  \n");
   GtkPaperSize *paper_size = NULL;
   char *name = NULL;
   char *ppd_name = NULL;
@@ -1007,6 +1034,7 @@ gtk_paper_size_to_key_file (GtkPaperSize *size,
                             GKeyFile     *key_file,
                             const char   *group_name)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_to_key_file   \n");
   const char *name, *ppd_name, *display_name;
 
   g_return_if_fail (size != NULL);
@@ -1044,6 +1072,7 @@ gtk_paper_size_to_key_file (GtkPaperSize *size,
 GVariant *
 gtk_paper_size_to_gvariant (GtkPaperSize *paper_size)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_to_gvariant  \n");
   const char *name;
   const char *ppd_name;
   const char *display_name;
@@ -1083,6 +1112,7 @@ gtk_paper_size_to_gvariant (GtkPaperSize *paper_size)
 GtkPaperSize *
 gtk_paper_size_new_from_gvariant (GVariant *variant)
 {
+g_print("yash kumar kasaudhan: gtkpapersize.c -> gtk_paper_size_new_from_gvariant  \n");
   GtkPaperSize *paper_size;
   const char *name;
   const char *ppd_name;

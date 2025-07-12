@@ -107,6 +107,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (GtkPrinter, gtk_printer, G_TYPE_OBJECT)
 static void
 gtk_printer_class_init (GtkPrinterClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_class_init /n");
   GObjectClass *object_class;
   object_class = (GObjectClass *) class;
 
@@ -265,6 +266,7 @@ gtk_printer_class_init (GtkPrinterClass *class)
 static void
 gtk_printer_init (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_init /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   priv->name = NULL;
@@ -287,6 +289,7 @@ gtk_printer_init (GtkPrinter *printer)
 static void
 gtk_printer_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_finalize /n");
   GtkPrinter *printer = GTK_PRINTER (object);
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
@@ -308,6 +311,7 @@ gtk_printer_set_property (GObject         *object,
 			  const GValue    *value,
 			  GParamSpec      *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_property /n");
   GtkPrinter *printer = GTK_PRINTER (object);
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
@@ -345,6 +349,7 @@ gtk_printer_get_property (GObject    *object,
 			  GValue     *value,
 			  GParamSpec *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_property /n");
   GtkPrinter *printer = GTK_PRINTER (object);
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
@@ -416,6 +421,7 @@ gtk_printer_new (const char      *name,
 		 GtkPrintBackend *backend,
 		 gboolean         virtual_)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_new /n");
   GObject *result;
   
   result = g_object_new (GTK_TYPE_PRINTER,
@@ -438,6 +444,7 @@ gtk_printer_new (const char      *name,
 GtkPrintBackend *
 gtk_printer_get_backend (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_backend /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -456,6 +463,7 @@ gtk_printer_get_backend (GtkPrinter *printer)
 const char *
 gtk_printer_get_name (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_name /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -474,6 +482,7 @@ gtk_printer_get_name (GtkPrinter *printer)
 const char *
 gtk_printer_get_description (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_description /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -485,6 +494,7 @@ gboolean
 gtk_printer_set_description (GtkPrinter  *printer,
 			     const char *description)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_description /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -510,6 +520,7 @@ gtk_printer_set_description (GtkPrinter  *printer,
 const char *
 gtk_printer_get_state_message (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_state_message /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -521,6 +532,7 @@ gboolean
 gtk_printer_set_state_message (GtkPrinter  *printer,
 			       const char *message)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_state_message /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -546,6 +558,7 @@ gtk_printer_set_state_message (GtkPrinter  *printer,
 const char *
 gtk_printer_get_location (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_location /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -557,6 +570,7 @@ gboolean
 gtk_printer_set_location (GtkPrinter  *printer,
 			  const char *location)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_location /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -582,6 +596,7 @@ gtk_printer_set_location (GtkPrinter  *printer,
 const char *
 gtk_printer_get_icon_name (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_icon_name /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), NULL);
@@ -593,6 +608,7 @@ void
 gtk_printer_set_icon_name (GtkPrinter  *printer,
 			   const char *icon)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_icon_name /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -613,6 +629,7 @@ gtk_printer_set_icon_name (GtkPrinter  *printer,
 int
 gtk_printer_get_job_count (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_job_count /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), 0);
@@ -624,6 +641,7 @@ gboolean
 gtk_printer_set_job_count (GtkPrinter *printer,
 			   int         count)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_job_count /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -649,6 +667,7 @@ gtk_printer_set_job_count (GtkPrinter *printer,
 gboolean
 gtk_printer_has_details (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_has_details /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -660,6 +679,7 @@ void
 gtk_printer_set_has_details (GtkPrinter *printer,
 			     gboolean    val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_has_details /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   priv->has_details = val;
@@ -677,6 +697,7 @@ gtk_printer_set_has_details (GtkPrinter *printer,
 gboolean
 gtk_printer_is_active (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_active /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -688,6 +709,7 @@ void
 gtk_printer_set_is_active (GtkPrinter *printer,
 			   gboolean val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_is_active  /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -709,6 +731,7 @@ gtk_printer_set_is_active (GtkPrinter *printer,
 gboolean
 gtk_printer_is_paused (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_paused /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -720,6 +743,7 @@ gboolean
 gtk_printer_set_is_paused (GtkPrinter *printer,
 			   gboolean    val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_is_paused /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -743,6 +767,7 @@ gtk_printer_set_is_paused (GtkPrinter *printer,
 gboolean
 gtk_printer_is_accepting_jobs (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_accepting_jobs /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -754,6 +779,7 @@ gboolean
 gtk_printer_set_is_accepting_jobs (GtkPrinter *printer,
 				   gboolean val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_is_accepting_jobs /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -779,6 +805,7 @@ gtk_printer_set_is_accepting_jobs (GtkPrinter *printer,
 gboolean
 gtk_printer_is_virtual (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_virtual /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -798,6 +825,7 @@ gtk_printer_is_virtual (GtkPrinter *printer)
 gboolean
 gtk_printer_accepts_pdf (GtkPrinter *printer)
 { 
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_accepts_pdf /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -809,6 +837,7 @@ void
 gtk_printer_set_accepts_pdf (GtkPrinter *printer,
 			     gboolean val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_accepts_pdf /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -828,6 +857,7 @@ gtk_printer_set_accepts_pdf (GtkPrinter *printer,
 gboolean
 gtk_printer_accepts_ps (GtkPrinter *printer)
 { 
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_accepts_ps /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), TRUE);
@@ -839,6 +869,7 @@ void
 gtk_printer_set_accepts_ps (GtkPrinter *printer,
 			    gboolean val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_accpets_ps /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -849,6 +880,7 @@ gtk_printer_set_accepts_ps (GtkPrinter *printer,
 gboolean
 gtk_printer_is_new (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_new /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -860,6 +892,7 @@ void
 gtk_printer_set_is_new (GtkPrinter *printer,
 			gboolean val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_is_new /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -879,6 +912,7 @@ gtk_printer_set_is_new (GtkPrinter *printer,
 gboolean
 gtk_printer_is_default (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_is_default /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_val_if_fail (GTK_IS_PRINTER (printer), FALSE);
@@ -890,6 +924,7 @@ void
 gtk_printer_set_is_default (GtkPrinter *printer,
 			    gboolean    val)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_set_is_default /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
 
   g_return_if_fail (GTK_IS_PRINTER (printer));
@@ -910,6 +945,7 @@ gtk_printer_set_is_default (GtkPrinter *printer,
 void
 gtk_printer_request_details (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_request_details /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class;
 
@@ -925,6 +961,7 @@ _gtk_printer_get_options (GtkPrinter           *printer,
 			  GtkPageSetup         *page_setup,
 			  GtkPrintCapabilities  capabilities)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> _gtk_printer_get_options /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -935,6 +972,7 @@ gboolean
 _gtk_printer_mark_conflicts (GtkPrinter          *printer,
 			     GtkPrinterOptionSet *options)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> _gtk_printer_mark_conflicts /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -946,6 +984,7 @@ _gtk_printer_get_settings_from_options (GtkPrinter          *printer,
 					GtkPrinterOptionSet *options,
 					GtkPrintSettings    *settings)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> _gtk_printer_get_settings_froM_options /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -958,6 +997,7 @@ _gtk_printer_prepare_for_print (GtkPrinter       *printer,
 				GtkPrintSettings *settings,
 				GtkPageSetup     *page_setup)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> _gtk_printer_prepare_for_print /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -971,6 +1011,7 @@ _gtk_printer_create_cairo_surface (GtkPrinter       *printer,
 				   double            height,
 				   GIOChannel       *cache_io)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> _gtk_printer_create_cairo_surface /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -994,6 +1035,7 @@ _gtk_printer_create_cairo_surface (GtkPrinter       *printer,
 GList  *
 gtk_printer_list_papers (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_list_papers /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class;
 
@@ -1015,6 +1057,7 @@ gtk_printer_list_papers (GtkPrinter *printer)
 GtkPageSetup *
 gtk_printer_get_default_page_size (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_default_page_size /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class;
 
@@ -1051,6 +1094,7 @@ gtk_printer_get_hard_margins (GtkPrinter *printer,
 			      double     *left,
 			      double     *right)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_hard_margins /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -1085,6 +1129,7 @@ gtk_printer_get_hard_margins_for_paper_size (GtkPrinter   *printer,
 					     double       *left,
 					     double       *right)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_hard_margins_for_paper_size /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class = GTK_PRINT_BACKEND_GET_CLASS (priv->backend);
 
@@ -1110,6 +1155,7 @@ gtk_printer_get_hard_margins_for_paper_size (GtkPrinter   *printer,
 GtkPrintCapabilities
 gtk_printer_get_capabilities (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_get_capabilites /n");
   GtkPrinterPrivate *priv = gtk_printer_get_instance_private (printer);
   GtkPrintBackendClass *backend_class;
 
@@ -1133,6 +1179,7 @@ int
 gtk_printer_compare (GtkPrinter *a, 
                      GtkPrinter *b)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_compare /n");
   const char *name_a, *name_b;
   
   g_assert (GTK_IS_PRINTER (a) && GTK_IS_PRINTER (b));
@@ -1165,6 +1212,7 @@ static void list_done_cb (GtkPrintBackend *backend,
 static void
 stop_enumeration (PrinterList *printer_list)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> stop_enumeration /n");
   GList *list, *next;
   GtkPrintBackend *backend;
 
@@ -1179,6 +1227,7 @@ stop_enumeration (PrinterList *printer_list)
 static void 
 free_printer_list (PrinterList *printer_list)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> free_printer_list /n");
   if (printer_list->destroy)
     printer_list->destroy (printer_list->data);
 
@@ -1196,6 +1245,7 @@ list_added_cb (GtkPrintBackend *backend,
 	       GtkPrinter      *printer, 
 	       PrinterList     *printer_list)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> list_added_cb /n");
   if (printer_list->func (printer, printer_list->data))
     {
       stop_enumeration (printer_list);
@@ -1210,6 +1260,7 @@ backend_status_changed (GObject    *object,
                         GParamSpec *pspec,
                         gpointer    data)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> backend_status_changed /n");
   GtkPrintBackend *backend = GTK_PRINT_BACKEND (object);
   PrinterList *printer_list = data;
   GtkPrintBackendStatus status;
@@ -1224,6 +1275,7 @@ static gboolean
 list_printers_remove_backend (PrinterList     *printer_list,
                               GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> list_printers_remove_backend /n");
   printer_list->backends = g_list_remove (printer_list->backends, backend);
   gtk_print_backend_destroy (backend);
   g_object_unref (backend);
@@ -1241,6 +1293,7 @@ static void
 list_done_cb (GtkPrintBackend *backend,
 	      PrinterList     *printer_list)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> list_done_cb /n");
   g_signal_handlers_disconnect_by_func (backend, list_added_cb, printer_list);
   g_signal_handlers_disconnect_by_func (backend, list_done_cb, printer_list);
   g_signal_handlers_disconnect_by_func (backend, backend_status_changed, printer_list);
@@ -1252,6 +1305,7 @@ static gboolean
 list_printers_init (PrinterList     *printer_list,
 		    GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprinter.c -> list_printers_init /n");
   GList *list, *node;
   GtkPrintBackendStatus status;
 
@@ -1310,6 +1364,7 @@ gtk_enumerate_printers (GtkPrinterFunc func,
 			GDestroyNotify destroy,
 			gboolean       wait)
 {
+  g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_enumerate_printers /n");
   PrinterList *printer_list;
   GList *node, *next;
   GtkPrintBackend *backend;
@@ -1351,6 +1406,7 @@ static gboolean
 match_printer_name (GtkPrinter *printer,
                     gpointer    data)
 {
+  g_print("yash kumar kasaudhan: gtkprinter.c -> match_printer_name /n");
   if (strcmp (gtk_printer_get_name (printer), (const char *)data) == 0)
     {
       found_printer = g_object_ref (printer);
@@ -1363,6 +1419,7 @@ match_printer_name (GtkPrinter *printer,
 GtkPrinter *
 gtk_printer_find (const char *name)
 {
+  g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_printer_find/n");
   found_printer = NULL;
   gtk_enumerate_printers (match_printer_name, (gpointer) name, NULL, TRUE);
   return g_steal_pointer (&found_printer);
@@ -1371,6 +1428,7 @@ gtk_printer_find (const char *name)
 GType
 gtk_print_capabilities_get_type (void)
 {
+  g_print("yash kumar kasaudhan: gtkprinter.c -> gtk_print_capabilities_get_type \n");
   static GType etype = 0;
 
   if (G_UNLIKELY (etype == 0))

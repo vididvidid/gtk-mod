@@ -82,6 +82,8 @@ static GObjectClass *backend_parent_class;
 GQuark
 gtk_print_backend_error_quark (void)
 {
+
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_error_quark \n");
   static GQuark quark = 0;
   if (quark == 0)
     quark = g_quark_from_static_string ("gtk-print-backend-error-quark");
@@ -91,6 +93,7 @@ gtk_print_backend_error_quark (void)
 void
 gtk_print_backends_init (void)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backends_init \n");
   GIOExtensionPoint *ep;
   GIOModuleScope *scope;
   char **paths;
@@ -144,6 +147,7 @@ gtk_print_backends_init (void)
 GList *
 gtk_print_backend_load_modules (void)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_load_modules \n");
   GList *result;
   GtkPrintBackend *backend;
   char *setting;
@@ -223,6 +227,7 @@ gtk_print_backend_set_property (GObject      *object,
                                 const GValue *value,
                                 GParamSpec   *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_set_property \n");
   GtkPrintBackend *backend = GTK_PRINT_BACKEND (object);
   GtkPrintBackendPrivate *priv = backend->priv;
 
@@ -243,6 +248,7 @@ gtk_print_backend_get_property (GObject    *object,
                                 GValue     *value,
                                 GParamSpec *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_get_property \n");
   GtkPrintBackend *backend = GTK_PRINT_BACKEND (object);
   GtkPrintBackendPrivate *priv = backend->priv;
 
@@ -260,6 +266,7 @@ gtk_print_backend_get_property (GObject    *object,
 static void
 gtk_print_backend_class_init (GtkPrintBackendClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_class_init \n");
   GObjectClass *object_class;
   object_class = (GObjectClass *) class;
 
@@ -340,6 +347,7 @@ gtk_print_backend_class_init (GtkPrintBackendClass *class)
 static void
 gtk_print_backend_init (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_init  \n");
   GtkPrintBackendPrivate *priv;
 
   priv = backend->priv = gtk_print_backend_get_instance_private (backend);
@@ -351,7 +359,7 @@ gtk_print_backend_init (GtkPrintBackend *backend)
 
 static void
 gtk_print_backend_dispose (GObject *object)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_dispose \n");
   GtkPrintBackend *backend;
   GtkPrintBackendPrivate *priv;
 
@@ -368,7 +376,7 @@ gtk_print_backend_dispose (GObject *object)
 
 static void
 gtk_print_backend_finalize (GObject *object)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_finalize \n");
   GtkPrintBackend *backend = GTK_PRINT_BACKEND (object);
   GtkPrintBackendPrivate *priv = backend->priv;
 
@@ -379,13 +387,13 @@ gtk_print_backend_finalize (GObject *object)
 
 static void
 fallback_printer_request_details (GtkPrinter *printer)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_pritner_request_details \n");
 }
 
 static gboolean
 fallback_printer_mark_conflicts (GtkPrinter          *printer,
                                  GtkPrinterOptionSet *options)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_printer_mark_conflicts  \n");
   return FALSE;
 }
 
@@ -395,7 +403,7 @@ fallback_printer_get_hard_margins (GtkPrinter *printer,
 				   double     *bottom,
 				   double     *left,
 				   double     *right)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_pritner_get_hard_margins \n");
   return FALSE;
 }
 
@@ -406,25 +414,26 @@ fallback_printer_get_hard_margins_for_paper_size (GtkPrinter   *printer,
 						  double       *bottom,
 						  double       *left,
 						  double       *right)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_printer_get_hard_margins_for_paper_size  \n");
   return FALSE;
 }
 
 static GList *
 fallback_printer_list_papers (GtkPrinter *printer)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_printer_list_papers \n");
   return NULL;
 }
 
 static GtkPageSetup *
 fallback_printer_get_default_page_size (GtkPrinter *printer)
-{
+{g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_pritner_get_default_page_size  \n");
   return NULL;
 }
 
 static GtkPrintCapabilities
 fallback_printer_get_capabilities (GtkPrinter *printer)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> fallback_printer_get_capabilities \n");
   return 0;
 }
 
@@ -432,6 +441,8 @@ void
 gtk_print_backend_add_printer (GtkPrintBackend *backend,
 			       GtkPrinter      *printer)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_add_printer \n");
+
   g_return_if_fail (GTK_IS_PRINT_BACKEND (backend));
 
   g_list_store_append (backend->priv->printers, printer);
@@ -441,6 +452,8 @@ void
 gtk_print_backend_remove_printer (GtkPrintBackend *backend,
 				  GtkPrinter      *printer)
 {
+
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_remove_printer  \n");
   guint position;
   
   g_return_if_fail (GTK_IS_PRINT_BACKEND (backend));
@@ -452,6 +465,7 @@ gtk_print_backend_remove_printer (GtkPrintBackend *backend,
 void
 gtk_print_backend_set_list_done (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_set_list_done  \n");
   if (!backend->priv->printer_list_done)
     {
       backend->priv->printer_list_done = TRUE;
@@ -471,6 +485,7 @@ gtk_print_backend_set_list_done (GtkPrintBackend *backend)
 GList *
 gtk_print_backend_get_printer_list (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_get_printer \n");
   GList *result = NULL;
   guint i;
   
@@ -496,6 +511,7 @@ gtk_print_backend_get_printer_list (GtkPrintBackend *backend)
 GListModel *
 gtk_print_backend_get_printers (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_get_printers \n");
   if (!backend->priv->printer_list_requested)
     {
       if (GTK_PRINT_BACKEND_GET_CLASS (backend)->request_printer_list)
@@ -509,6 +525,7 @@ gtk_print_backend_get_printers (GtkPrintBackend *backend)
 gboolean
 gtk_print_backend_printer_list_is_done (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_printer_list_is_done \n");
   g_return_val_if_fail (GTK_IS_PRINT_BACKEND (backend), TRUE);
 
   return backend->priv->printer_list_done;
@@ -518,6 +535,7 @@ GtkPrinter *
 gtk_print_backend_find_printer (GtkPrintBackend *backend,
                                 const char      *printer_name)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_prin_backedn_find_printer  \n");
   GtkPrinter *result = NULL;
   guint i;
   
@@ -542,6 +560,7 @@ gtk_print_backend_print_stream (GtkPrintBackend        *backend,
                                 gpointer                user_data,
 				GDestroyNotify          dnotify)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_print_stream  \n");
   g_return_if_fail (GTK_IS_PRINT_BACKEND (backend));
 
   GTK_PRINT_BACKEND_GET_CLASS (backend)->print_stream (backend,
@@ -558,6 +577,7 @@ gtk_print_backend_set_password (GtkPrintBackend  *backend,
                                 char            **auth_info,
                                 gboolean          store_auth_info)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_set_password  \n");
   g_return_if_fail (GTK_IS_PRINT_BACKEND (backend));
 
   if (GTK_PRINT_BACKEND_GET_CLASS (backend)->set_password)
@@ -571,6 +591,7 @@ static void
 store_auth_info_toggled (GtkCheckButton *chkbtn,
                          gpointer        user_data)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> store_auth_info_toggled \n");
   gboolean *data = (gboolean *) user_data;
   *data = gtk_check_button_get_active (GTK_CHECK_BUTTON (chkbtn));
 }
@@ -579,6 +600,7 @@ static void
 store_entry (GtkEntry  *entry,
              gpointer   user_data)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> store_entry  \n");
   char **data = (char **) user_data;
 
   if (*data != NULL)
@@ -595,6 +617,7 @@ password_dialog_response (GtkWidget       *dialog,
                           int              response_id,
                           GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> password_dialog_response  \n");
   GtkPrintBackendPrivate *priv = backend->priv;
   int i, auth_info_len;
 
@@ -632,6 +655,7 @@ request_password (GtkPrintBackend  *backend,
                   const char       *prompt,
                   gboolean          can_store_auth_info)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> request_password  \n");
   GtkPrintBackendPrivate *priv = backend->priv;
   GtkWidget *dialog, *box, *main_box, *label, *icon, *vbox, *entry, *chkbtn;
   GtkWidget *focus = NULL;
@@ -755,6 +779,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 void
 gtk_print_backend_destroy (GtkPrintBackend *backend)
 {
+g_print("yash kumar kasaudhan: gtkprintbackend.c -> gtk_print_backend_destroy  \n");
   /* The lifecycle of print backends and printers are tied, such that
    * the backend owns the printers, but the printers also ref the backend.
    * This is so that if the app has a reference to a printer its backend

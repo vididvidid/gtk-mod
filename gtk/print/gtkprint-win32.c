@@ -22,6 +22,7 @@
 void
 gtk_print_win32_devnames_free (GtkPrintWin32Devnames *devnames)
 {
+g_print("yash kumar kasaudhan: gtkprint-win32.c -> gtk_print_win32_devnames_free  \n");
   g_free (devnames->driver);
   g_free (devnames->device);
   g_free (devnames->output);
@@ -31,6 +32,7 @@ gtk_print_win32_devnames_free (GtkPrintWin32Devnames *devnames)
 GtkPrintWin32Devnames *
 gtk_print_win32_devnames_from_win32 (HGLOBAL global)
 {
+g_print("yash kumar kasaudhan: gtkprint-win32.c -> gtk_print_win32_devnames_from_win32 \n");
   LPDEVNAMES win = GlobalLock (global);
   gunichar2 *data = (gunichar2 *)win;
   GtkPrintWin32Devnames *devnames = g_new (GtkPrintWin32Devnames, 1);
@@ -51,6 +53,7 @@ gtk_print_win32_devnames_from_win32 (HGLOBAL global)
 HGLOBAL 
 gtk_print_win32_devnames_to_win32 (const GtkPrintWin32Devnames *devnames)
 {
+g_print("yash kumar kasaudhan: gtkprint-win32.c -> gtk_print_win32_devnames_to_win32 \n");
   HGLOBAL global;
   LPDEVNAMES windevnames;
   gunichar2 *data;
@@ -94,6 +97,7 @@ gtk_print_win32_devnames_to_win32 (const GtkPrintWin32Devnames *devnames)
 HGLOBAL 
 gtk_print_win32_devnames_to_win32_from_printer_name (const char *printer_name)
 {
+g_print("yash kumar kasaudhan: gtkprint-win32.c -> gtk_print_win32_devnames_to_win32_from_printer_name \n");
   HGLOBAL global;
   GtkPrintWin32Devnames *devnames;
 
@@ -117,6 +121,7 @@ gtk_print_win32_devnames_to_win32_from_printer_name (const char *printer_name)
 GtkPrintWin32Devnames *
 gtk_print_win32_devnames_from_printer_name (const char *printer_name)
 {
+g_print("yash kumar kasaudhan: gtkprint-win32.c -> gtk_print_win32_devnames_from_printer_name  \n");
   HANDLE hprinter;
   gunichar2* win32_printer_name;
   GtkPrintWin32Devnames *devnames;

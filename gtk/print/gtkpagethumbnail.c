@@ -28,6 +28,7 @@ G_DEFINE_TYPE (GtkPageThumbnail, gtk_page_thumbnail, GTK_TYPE_WIDGET)
 static void
 gtk_page_thumbnail_init (GtkPageThumbnail *self)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_init  \n");
   self->label = gtk_inscription_new ("0");
   gtk_widget_set_parent (self->label, GTK_WIDGET (self));
   gtk_inscription_set_min_chars (GTK_INSCRIPTION (self->label), 1);
@@ -37,6 +38,7 @@ gtk_page_thumbnail_init (GtkPageThumbnail *self)
 static void
 gtk_page_thumbnail_dispose (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_dispose  \n");
   GtkPageThumbnail *self = GTK_PAGE_THUMBNAIL (object);
 
   g_clear_pointer (&self->label, gtk_widget_unparent);
@@ -50,6 +52,7 @@ gtk_page_thumbnail_set_property (GObject      *object,
                                  const GValue *value,
                                  GParamSpec   *pspec)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_set_property \n");
   GtkPageThumbnail *self = GTK_PAGE_THUMBNAIL (object);
 
   switch (prop_id)
@@ -70,6 +73,7 @@ gtk_page_thumbnail_get_property (GObject     *object,
                                  GValue      *value,
                                  GParamSpec  *pspec)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbail_get_property  \n");
   GtkPageThumbnail *self = GTK_PAGE_THUMBNAIL (object);
 
   switch (prop_id)
@@ -90,6 +94,7 @@ gtk_page_thumbnail_size_allocate (GtkWidget *widget,
                                   int        height,
                                   int        baseline)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_size_allocate  \n");
   GtkPageThumbnail *self = GTK_PAGE_THUMBNAIL (widget);
   GtkRequisition nat;
   GtkAllocation alloc;
@@ -105,6 +110,7 @@ gtk_page_thumbnail_size_allocate (GtkWidget *widget,
 static void
 gtk_page_thumbnail_class_init (GtkPageThumbnailClass *class)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_class_init  \n");
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
@@ -126,6 +132,7 @@ gtk_page_thumbnail_class_init (GtkPageThumbnailClass *class)
 GtkPageThumbnail *
 gtk_page_thumbnail_new (void)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumbnail_new  \n");
   return g_object_new (GTK_TYPE_PAGE_THUMBNAIL, NULL);
 }
 
@@ -133,6 +140,7 @@ void
 gtk_page_thumbnail_set_page_num (GtkPageThumbnail *self,
                                  int               page_num)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumnail_set_page_num  \n");
   g_return_if_fail (GTK_IS_PAGE_THUMBNAIL (self));
   g_return_if_fail (page_num >= 0);
   char text[64];
@@ -152,6 +160,7 @@ gtk_page_thumbnail_set_page_num (GtkPageThumbnail *self,
 int
 gtk_page_thumbnail_get_page_num (GtkPageThumbnail *self)
 {
+g_print("yash kumar kasaudhan: gtkpagethumbnail.c -> gtk_page_thumnail_get_page_num  \n");
   g_return_val_if_fail (GTK_IS_PAGE_THUMBNAIL (self), 0);
 
   return self->page_num;

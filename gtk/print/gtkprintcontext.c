@@ -95,6 +95,7 @@
  */
 
 
+
 typedef struct _GtkPrintContextClass GtkPrintContextClass;
 
 #define GTK_IS_PRINT_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PRINT_CONTEXT))
@@ -136,6 +137,7 @@ G_DEFINE_TYPE (GtkPrintContext, gtk_print_context, G_TYPE_OBJECT)
 static void
 gtk_print_context_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_  \n");
   GtkPrintContext *context = GTK_PRINT_CONTEXT (object);
 
   if (context->page_setup)
@@ -150,11 +152,13 @@ gtk_print_context_finalize (GObject *object)
 static void
 gtk_print_context_init (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_init \n");
 }
 
 static void
 gtk_print_context_class_init (GtkPrintContextClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_class_init \n");
   GObjectClass *gobject_class = (GObjectClass *)class;
 
   gobject_class->finalize = gtk_print_context_finalize;
@@ -164,6 +168,7 @@ gtk_print_context_class_init (GtkPrintContextClass *class)
 GtkPrintContext *
 _gtk_print_context_new (GtkPrintOperation *op)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_new \n");
   GtkPrintContext *context;
 
   context = g_object_new (GTK_TYPE_PRINT_CONTEXT, NULL);
@@ -178,6 +183,7 @@ _gtk_print_context_new (GtkPrintOperation *op)
 static PangoFontMap *
 _gtk_print_context_get_fontmap (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_get_fontmap  \n");
   return pango_cairo_font_map_get_default ();
 }
 
@@ -201,6 +207,7 @@ gtk_print_context_set_cairo_context (GtkPrintContext *context,
 				     double           dpi_x,
 				     double           dpi_y)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtK_print_context_set_cairo_context  \n");
   if (context->cr)
     cairo_destroy (context->cr);
 
@@ -238,6 +245,7 @@ gtk_print_context_set_cairo_context (GtkPrintContext *context,
 void
 _gtk_print_context_rotate_according_to_orientation (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_rotate_according_to_orientation \n");
   cairo_t *cr = context->cr;
   cairo_matrix_t matrix;
   GtkPaperSize *paper_size;
@@ -285,6 +293,7 @@ _gtk_print_context_rotate_according_to_orientation (GtkPrintContext *context)
 void
 _gtk_print_context_reverse_according_to_orientation (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_reverse_accoring_to_orientation \n");
   cairo_t *cr = context->cr;
   cairo_matrix_t matrix;
   double width, height;
@@ -315,6 +324,7 @@ _gtk_print_context_reverse_according_to_orientation (GtkPrintContext *context)
 void
 _gtk_print_context_translate_into_margin (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_translate_into_margin \n");
   double dx, dy;
 
   g_return_if_fail (GTK_IS_PRINT_CONTEXT (context));
@@ -350,6 +360,7 @@ void
 _gtk_print_context_set_page_setup (GtkPrintContext *context,
 				   GtkPageSetup    *page_setup)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> _gtk_print_context_set_page_setup \n");
   g_return_if_fail (GTK_IS_PRINT_CONTEXT (context));
   g_return_if_fail (page_setup == NULL ||
 		    GTK_IS_PAGE_SETUP (page_setup));
@@ -375,6 +386,7 @@ _gtk_print_context_set_page_setup (GtkPrintContext *context,
 cairo_t *
 gtk_print_context_get_cairo_context (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_cairo_context \n");
   g_return_val_if_fail (GTK_IS_PRINT_CONTEXT (context), NULL);
 
   return context->cr;
@@ -392,6 +404,7 @@ gtk_print_context_get_cairo_context (GtkPrintContext *context)
 GtkPageSetup *
 gtk_print_context_get_page_setup (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_page_setup \n");
   g_return_val_if_fail (GTK_IS_PRINT_CONTEXT (context), NULL);
 
   return context->page_setup;
@@ -408,6 +421,7 @@ gtk_print_context_get_page_setup (GtkPrintContext *context)
 double
 gtk_print_context_get_width (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_width \n");
   GtkPrintOperationPrivate *priv;
   double width;
 
@@ -435,6 +449,7 @@ gtk_print_context_get_width (GtkPrintContext *context)
 double
 gtk_print_context_get_height (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_height \n");
   GtkPrintOperationPrivate *priv;
   double height;
 
@@ -463,6 +478,7 @@ gtk_print_context_get_height (GtkPrintContext *context)
 double
 gtk_print_context_get_dpi_x (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_dpi_x  \n");
   g_return_val_if_fail (GTK_IS_PRINT_CONTEXT (context), 0);
 
   return context->surface_dpi_x;
@@ -480,6 +496,7 @@ gtk_print_context_get_dpi_x (GtkPrintContext *context)
 double
 gtk_print_context_get_dpi_y (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_dpi_y \n");
   g_return_val_if_fail (GTK_IS_PRINT_CONTEXT (context), 0);
 
   return context->surface_dpi_y;
@@ -505,6 +522,7 @@ gtk_print_context_get_hard_margins (GtkPrintContext *context,
 				    double          *left,
 				    double          *right)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_)hard_margins \n");
   if (context->has_hard_margins)
     {
       *top    = context->hard_margin_top / context->pixels_per_unit_y;
@@ -533,6 +551,7 @@ _gtk_print_context_set_hard_margins (GtkPrintContext *context,
 				     double           left,
 				     double           right)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c ->  _gtk_print_context_set-hard_margins \n");
   context->hard_margin_top    = top;
   context->hard_margin_bottom = bottom;
   context->hard_margin_left   = left;
@@ -552,6 +571,7 @@ _gtk_print_context_set_hard_margins (GtkPrintContext *context,
 PangoFontMap *
 gtk_print_context_get_pango_fontmap (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_get_pango_fontmap \n");
   g_return_val_if_fail (GTK_IS_PRINT_CONTEXT (context), NULL);
 
   return _gtk_print_context_get_fontmap (context);
@@ -569,6 +589,7 @@ gtk_print_context_get_pango_fontmap (GtkPrintContext *context)
 PangoContext *
 gtk_print_context_create_pango_context (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_create_pnago_context \n");
   PangoContext *pango_context;
   cairo_font_options_t *options;
 
@@ -601,6 +622,7 @@ gtk_print_context_create_pango_context (GtkPrintContext *context)
 PangoLayout *
 gtk_print_context_create_pango_layout (GtkPrintContext *context)
 {
+g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtk_print_context_create_pango_layout  \n");
   PangoContext *pango_context;
   PangoLayout *layout;
 

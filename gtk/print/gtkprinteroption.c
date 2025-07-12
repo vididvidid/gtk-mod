@@ -51,6 +51,7 @@ G_DEFINE_TYPE (GtkPrinterOption, gtk_printer_option, G_TYPE_OBJECT)
 static void
 gtk_printer_option_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c ->gtk_printer_option_finalize  \n");
   GtkPrinterOption *option = GTK_PRINTER_OPTION (object);
   int i;
   
@@ -72,6 +73,7 @@ gtk_printer_option_finalize (GObject *object)
 static void
 gtk_printer_option_init (GtkPrinterOption *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_init \n");
   option->value = g_strdup ("");
   option->activates_default = FALSE;
 }
@@ -79,6 +81,7 @@ gtk_printer_option_init (GtkPrinterOption *option)
 static void
 gtk_printer_option_class_init (GtkPrinterOptionClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_class_init  \n");
   GObjectClass *gobject_class = (GObjectClass *)class;
 
   gobject_class->finalize = gtk_printer_option_finalize;
@@ -105,6 +108,7 @@ GtkPrinterOption *
 gtk_printer_option_new (const char *name, const char *display_text,
 			GtkPrinterOptionType type)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_new \n");
   GtkPrinterOption *option;
 
   option = g_object_new (GTK_TYPE_PRINTER_OPTION, NULL);
@@ -122,6 +126,7 @@ gtk_printer_option_set_property (GObject         *object,
                                  const GValue    *value,
                                  GParamSpec      *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_set_property \n");
   GtkPrinterOption *option = GTK_PRINTER_OPTION (object);
 
   switch (prop_id)
@@ -141,6 +146,7 @@ gtk_printer_option_get_property (GObject    *object,
                                  GValue     *value,
                                  GParamSpec *pspec)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_get_property \n");
   GtkPrinterOption *option = GTK_PRINTER_OPTION (object);
 
   switch (prop_id)
@@ -157,6 +163,7 @@ gtk_printer_option_get_property (GObject    *object,
 static void
 emit_changed (GtkPrinterOption *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> emit_changed \n");
   g_signal_emit (option, signals[CHANGED], 0);
 }
 
@@ -164,6 +171,7 @@ void
 gtk_printer_option_set (GtkPrinterOption *option,
 			const char *value)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_set \n");
   if (value == NULL)
     value = "";
   
@@ -198,6 +206,7 @@ void
 gtk_printer_option_set_boolean (GtkPrinterOption *option,
 				gboolean value)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_set_boolean \n");
   gtk_printer_option_set (option, value ? "True" : "False");
 }
 
@@ -205,6 +214,7 @@ void
 gtk_printer_option_set_has_conflict  (GtkPrinterOption *option,
 				      gboolean  has_conflict)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_set_has_conflict \n");
   has_conflict = has_conflict != 0;
   
   if (option->has_conflict == has_conflict)
@@ -217,6 +227,7 @@ gtk_printer_option_set_has_conflict  (GtkPrinterOption *option,
 void
 gtk_printer_option_clear_has_conflict (GtkPrinterOption     *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_clear_has_conflicts  \n");
   gtk_printer_option_set_has_conflict  (option, FALSE);
 }
 
@@ -224,6 +235,7 @@ void
 gtk_printer_option_allocate_choices (GtkPrinterOption     *option,
 				     int num)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_allocate_choices \n");
   g_free (option->choices);
   g_free (option->choices_display);
 
@@ -246,6 +258,7 @@ gtk_printer_option_choices_from_array (GtkPrinterOption   *option,
 				       const char        **choices,
 				       const char        **choices_display)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_choices_from_array \n");
   int i;
   
   gtk_printer_option_allocate_choices (option, num_choices);
@@ -260,6 +273,7 @@ gboolean
 gtk_printer_option_has_choice (GtkPrinterOption     *option,
 			       const char           *choice)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_has_choice \n");
   int i;
   
   for (i = 0; i < option->num_choices; i++)
@@ -275,6 +289,7 @@ void
 gtk_printer_option_set_activates_default (GtkPrinterOption *option,
 					  gboolean          activates)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_set_activates_default \n");
   g_return_if_fail (GTK_IS_PRINTER_OPTION (option));
 
   option->activates_default = activates;
@@ -283,6 +298,7 @@ gtk_printer_option_set_activates_default (GtkPrinterOption *option,
 gboolean
 gtk_printer_option_get_activates_default (GtkPrinterOption *option)
 {
+g_print("yash kumar kasaudhan: gtkprinteroption.c -> gtk_printer_option_get_activates_default \n");
   g_return_val_if_fail (GTK_IS_PRINTER_OPTION (option), FALSE);
 
   return option->activates_default;

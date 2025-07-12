@@ -40,6 +40,9 @@ static void gtk_print_operation_preview_base_init (gpointer g_iface);
 GType
 gtk_print_operation_preview_get_type (void)
 {
+
+	
+	g_print("yash kumar kasaudhan: gtkprintoperationpreview.c -> gtk_print_operation_preview_get_type\n");
   static GType print_operation_preview_type = 0;
 
   if (!print_operation_preview_type)
@@ -70,6 +73,7 @@ gtk_print_operation_preview_get_type (void)
 static void
 gtk_print_operation_preview_base_init (gpointer g_iface)
 {
+	g_print("yash kumar kasaudhan: gtkprintoperationpreveiw.c -> gtK_print_operation_preview_base_init\n");
   static gboolean initialized = FALSE;
 
   if (!initialized)
@@ -145,6 +149,7 @@ void
 gtk_print_operation_preview_render_page (GtkPrintOperationPreview *preview,
 					 int			   page_nr)
 {
+	g_print("yash kumar kasaudhan: gtk_print_operation_preveiw_render_page\n");
   g_return_if_fail (GTK_IS_PRINT_OPERATION_PREVIEW (preview));
 
   GTK_PRINT_OPERATION_PREVIEW_GET_IFACE (preview)->render_page (preview,
@@ -162,6 +167,7 @@ gtk_print_operation_preview_render_page (GtkPrintOperationPreview *preview,
 void
 gtk_print_operation_preview_end_preview (GtkPrintOperationPreview *preview)
 {
+	g_print("yash kumar kasaudhan: gtkprintoperationpreview -> gtk_print_operation_preview_end_preview\n");
   g_return_if_fail (GTK_IS_PRINT_OPERATION_PREVIEW (preview));
 
   GTK_PRINT_OPERATION_PREVIEW_GET_IFACE (preview)->end_preview (preview);
@@ -181,6 +187,8 @@ gboolean
 gtk_print_operation_preview_is_selected (GtkPrintOperationPreview *preview,
 					 int                       page_nr)
 {
+
+	g_print("yash kumar kasaudhan: gtkprintopertationpreview -> gtk_preview_operation_preview_is_selected\n");
   g_return_val_if_fail (GTK_IS_PRINT_OPERATION_PREVIEW (preview), FALSE);
 
   return GTK_PRINT_OPERATION_PREVIEW_GET_IFACE (preview)->is_selected (preview, page_nr);

@@ -363,6 +363,7 @@ static const char *css_data = ""
 static void
 ensure_fallback_style (void)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> ensure_fallback_style\n");
   GdkDisplay *display;
   GtkCssProvider *provider;
 
@@ -387,6 +388,7 @@ ensure_fallback_style (void)
 static void
 gtk_print_unix_dialog_class_init (GtkPrintUnixDialogClass *class)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_class_init\n");
   GObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
@@ -570,6 +572,7 @@ gtk_print_unix_dialog_class_init (GtkPrintUnixDialogClass *class)
 static GtkWindow *
 get_toplevel (GtkWidget *widget)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> get_toplevel\n");
   GtkWidget *toplevel = NULL;
 
   toplevel = GTK_WIDGET (gtk_widget_get_root (widget));
@@ -583,6 +586,7 @@ static void
 set_busy_cursor (GtkPrintUnixDialog *dialog,
                  gboolean            busy)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> set_busy_cursor\n");
   GtkWidget *widget;
   GtkWindow *toplevel;
 
@@ -608,6 +612,8 @@ on_confirmation_dialog_response (GtkWidget *dialog,
                                  int        response,
                                  gpointer   user_data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> on_confirmation_dialog_response\n");
+
   ConfirmationData *data = user_data;
 
   data->response = response;
@@ -624,14 +630,18 @@ error_dialogs (GtkPrintUnixDialog *dialog,
                int                 dialog_response_id,
                gpointer            data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> error_dialogs\n");
   if (dialog != NULL && dialog_response_id == GTK_RESPONSE_OK)
     {
+      g_print("errrorr ---> 1\n");
       GtkPrinter *printer = gtk_print_unix_dialog_get_selected_printer (dialog);
 
       if (printer != NULL)
         {
+          g_print("errorr ----->1.a\n");
           if (dialog->request_details_tag || !gtk_printer_is_accepting_jobs (printer))
             {
+              g_print("errror ---> 1.a.1\n");
               g_signal_stop_emission_by_name (dialog, "response");
               return;
             }
@@ -641,6 +651,7 @@ error_dialogs (GtkPrintUnixDialog *dialog,
            */
           if (gtk_printer_is_virtual (printer))
             {
+
               GtkPrinterOption *option =
                 gtk_printer_option_set_lookup (dialog->options,
                                                "gtk-main-page-custom-input");
@@ -666,6 +677,7 @@ error_dialogs (GtkPrintUnixDialog *dialog,
                       g_object_unref (parent);
 
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+                      g_print("error---> 2\n");
                       message_dialog = gtk_message_dialog_new (toplevel,
                                                                GTK_DIALOG_MODAL |
                                                                GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -688,7 +700,7 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                       gtk_dialog_set_default_response (GTK_DIALOG (message_dialog),
                                                        GTK_RESPONSE_ACCEPT);
 G_GNUC_END_IGNORE_DEPRECATIONS
-
+                      g_print("error --> 3\n");
                       if (gtk_window_has_group (toplevel))
                         gtk_window_group_add_window (gtk_window_get_group (toplevel),
                                                      GTK_WINDOW (message_dialog));
@@ -723,11 +735,13 @@ G_GNUC_END_IGNORE_DEPRECATIONS
             }
         }
     }
+    g_print("nothing\n");
 }
 
 static char *
 get_printer_key (GtkPrinter *printer)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> get_printer_key\n");
   return g_strconcat ("", gtk_printer_get_name (printer), " ", gtk_printer_get_location (printer), NULL);
 }
 
@@ -735,6 +749,7 @@ static void
 setup_paper_size_item (GtkSignalListItemFactory *factory,
                        GtkListItem              *item)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> setup_paper_size_item\n");
   GtkWidget *label;
 
   label = gtk_label_new ("");
@@ -747,6 +762,7 @@ bind_paper_size_list_item (GtkSignalListItemFactory *factory,
                            GtkListItem              *item,
                            GtkPrintUnixDialog       *self)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> bind_paper_size_last_item\n");
   GtkPageSetup *page_setup;
   GtkWidget *label;
   guint pos;
@@ -782,6 +798,7 @@ bind_paper_size_item (GtkSignalListItemFactory *factory,
                       GtkListItem              *item,
                       GtkPrintUnixDialog       *self)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> bind_paper_size_item\n");
   GtkWidget *label;
 
   bind_paper_size_list_item (factory, item, self);
@@ -793,6 +810,7 @@ bind_paper_size_item (GtkSignalListItemFactory *factory,
 static void
 gtk_print_unix_dialog_init (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_init.\n");
   GtkWidget *widget;
   GListModel *model;
   GListModel *sorted;
@@ -835,6 +853,7 @@ gtk_print_unix_dialog_init (GtkPrintUnixDialog *dialog)
   gtk_widget_add_css_class (GTK_WIDGET (dialog), "print");
 
   gtk_dialog_set_use_header_bar_from_setting (GTK_DIALOG (dialog));
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_init\n");
   gtk_dialog_add_buttons (GTK_DIALOG (dialog),
                           _("Pre_view"), GTK_RESPONSE_APPLY,
                           _("_Cancel"), GTK_RESPONSE_CANCEL,
@@ -912,10 +931,11 @@ gtk_print_unix_dialog_init (GtkPrintUnixDialog *dialog)
 static void
 gtk_print_unix_dialog_constructed (GObject *object)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_constructed\n");
   gboolean use_header;
 
   G_OBJECT_CLASS (gtk_print_unix_dialog_parent_class)->constructed (object);
-
+  g_print("yash kumar kasaudhan : gtkprintunixdialog.c -> gtk_print_unix_dialog_constructed\n");
   g_object_get (object, "use-header-bar", &use_header, NULL);
   if (use_header)
     {
@@ -935,6 +955,7 @@ gtk_print_unix_dialog_constructed (GObject *object)
 static void
 gtk_print_unix_dialog_dispose (GObject *object)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_dispose\n");
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (object);
 
   /* Make sure we don't destroy custom widgets owned by the backends */
@@ -947,6 +968,7 @@ static void
 disconnect_printer_details_request (GtkPrintUnixDialog *dialog,
                                     gboolean            details_failed)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> disconnect_printer_details_request\n");
   if (dialog->request_details_tag)
     {
       g_signal_handler_disconnect (dialog->request_details_printer,
@@ -962,6 +984,7 @@ disconnect_printer_details_request (GtkPrintUnixDialog *dialog,
 static void
 gtk_print_unix_dialog_finalize (GObject *object)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_finalize\n");
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (object);
   GList *iter;
 
@@ -1004,6 +1027,7 @@ gtk_print_unix_dialog_finalize (GObject *object)
 static void
 gtk_print_unix_dialog_buildable_init (GtkBuildableIface *iface)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_buildable_init\n");
   parent_buildable_iface = g_type_interface_peek_parent (iface);
 
   iface->get_internal_child = gtk_print_unix_dialog_buildable_get_internal_child;
@@ -1014,6 +1038,8 @@ gtk_print_unix_dialog_buildable_get_internal_child (GtkBuildable *buildable,
                                                     GtkBuilder   *builder,
                                                     const char   *childname)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_buildable_get_internal_child\n");
+
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (buildable);
 
   if (strcmp (childname, "notebook") == 0)
@@ -1027,6 +1053,7 @@ printer_status_cb (GtkPrintBackend    *backend,
                    GtkPrinter         *printer,
                    GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> printer_status_cb\n");
   GListModel *model;
 
   /* When the pause state change then we need to update sensitive property
@@ -1049,6 +1076,7 @@ printer_added_cb (GListModel         *model,
                   guint               added,
                   GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> printer_added_cb\n");
   guint i;
 
   for (i = position; i < position + added; i++)
@@ -1079,6 +1107,7 @@ printer_added_cb (GListModel         *model,
 static GListModel *
 load_print_backends (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> load_print_backends\n");
   GList *node;
   GListStore *lists;
 
@@ -1106,6 +1135,7 @@ gtk_print_unix_dialog_set_property (GObject      *object,
                                     GParamSpec   *pspec)
 
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_set_property\n");
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (object);
 
   switch (prop_id)
@@ -1143,6 +1173,7 @@ gtk_print_unix_dialog_get_property (GObject    *object,
                                     GValue     *value,
                                     GParamSpec *pspec)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_get_property\n");
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (object);
 
   switch (prop_id)
@@ -1180,6 +1211,7 @@ gtk_print_unix_dialog_get_property (GObject    *object,
 static gboolean
 is_printer_active (gpointer item, gpointer data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> is_printer_active\n");
   GtkPrinter *printer = item;
   GtkPrintUnixDialog *dialog = data;
   gboolean result;
@@ -1207,6 +1239,7 @@ default_printer_list_sort_func (gconstpointer a,
                                 gconstpointer b,
                                 gpointer      user_data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> default_printer_list_sort_func\n");
   GtkPrinter *a_printer = (gpointer)a;
   GtkPrinter *b_printer = (gpointer)b;
   const char *a_name;
@@ -1243,6 +1276,7 @@ static GtkWidget *
 wrap_in_frame (const char *label,
                GtkWidget   *child)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> wrap_in_frame\n");
   GtkWidget *box, *label_widget;
   char *bold_text;
 
@@ -1271,6 +1305,7 @@ setup_option (GtkPrintUnixDialog     *dialog,
               const char             *option_name,
               GtkPrinterOptionWidget *widget)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> setup_option\n");
   GtkPrinterOption *option;
 
   option = gtk_printer_option_set_lookup (dialog->options, option_name);
@@ -1283,6 +1318,7 @@ static void
 add_option_to_extension_point (GtkPrinterOption *option,
                                gpointer          data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> add_option_to_extension_point\n");
   GtkWidget *extension_point = data;
   GtkWidget *widget;
 
@@ -1314,6 +1350,7 @@ add_option_to_extension_point (GtkPrinterOption *option,
 static int
 grid_rows (GtkGrid *table)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> grid_rows\n");
   int t0, t1, l, t, w, h;
   GtkWidget *c;
   gboolean first;
@@ -1345,6 +1382,7 @@ static void
 add_option_to_table (GtkPrinterOption *option,
                      gpointer          user_data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> add_option_to_table\n");
   GtkGrid *table;
   GtkWidget *label, *widget;
   guint row;
@@ -1380,6 +1418,7 @@ setup_page_table (GtkPrinterOptionSet *options,
                   GtkWidget           *table,
                   GtkWidget           *page)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> setup_page_table\n");
   int nrows;
 
   gtk_printer_option_set_foreach_in_group (options, group,
@@ -1393,6 +1432,7 @@ setup_page_table (GtkPrinterOptionSet *options,
 static void
 update_print_at_option (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_print_at_option\n");
   GtkPrinterOption *option;
 
   option = gtk_printer_option_set_lookup (dialog->options, "gtk-print-time");
@@ -1424,6 +1464,7 @@ update_print_at_option (GtkPrintUnixDialog *dialog)
 static gboolean
 setup_print_at (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> setup_pirnt_at\n");
   GtkPrinterOption *option;
 
   option = gtk_printer_option_set_lookup (dialog->options, "gtk-print-time");
@@ -1468,6 +1509,7 @@ setup_print_at (GtkPrintUnixDialog *dialog)
 static void
 update_dialog_from_settings (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_dialog_from_settings\n");
   GList *groups, *l;
   char *group;
   GtkWidget *table, *frame;
@@ -1579,11 +1621,12 @@ update_dialog_from_settings (GtkPrintUnixDialog *dialog)
 static void
 update_dialog_from_capabilities (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_dialog_from_capabilities\n");
   GtkPrintCapabilities caps;
   gboolean can_collate;
   const char *copies;
   GtkWidget *button;
-
+  g_print("yash kumar kasaudhan : gtkprintunixdialog.c -> update_dialog_from_capabilities\n");
   copies = gtk_editable_get_text (GTK_EDITABLE (dialog->copies_spin));
   can_collate = (*copies != '\0' && atoi (copies) > 1);
 
@@ -1613,6 +1656,7 @@ static gboolean
 page_setup_is_equal (GtkPageSetup *a,
                      GtkPageSetup *b)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> page_setup_is_equal\n");
   return
     gtk_paper_size_is_equal (gtk_page_setup_get_paper_size (a),
                              gtk_page_setup_get_paper_size (b)) &&
@@ -1626,6 +1670,8 @@ static gboolean
 page_setup_is_same_size (GtkPageSetup *a,
                          GtkPageSetup *b)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> page_setup_is_same_size\n");
+
   return gtk_paper_size_is_equal (gtk_page_setup_get_paper_size (a),
                                   gtk_page_setup_get_paper_size (b));
 }
@@ -1636,6 +1682,7 @@ set_paper_size (GtkPrintUnixDialog *dialog,
                 gboolean            size_only,
                 gboolean            add_item)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> set_paper_size\n");
   GListModel *model;
   GtkPageSetup *list_page_setup;
   guint i;
@@ -1682,6 +1729,7 @@ set_paper_size (GtkPrintUnixDialog *dialog,
 static void
 fill_custom_paper_sizes (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> fill_custom_paper_sizes\n");
   g_list_store_remove_all (dialog->custom_paper_list);
   gtk_print_load_custom_papers (dialog->custom_paper_list);
 }
@@ -1690,6 +1738,7 @@ static void
 fill_paper_sizes (GtkPrintUnixDialog *dialog,
                   GtkPrinter         *printer)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> fill_paper_sizes\n");
   GList *list, *l;
   GtkPageSetup *page_setup;
   GtkPaperSize *paper_size;
@@ -1724,6 +1773,7 @@ fill_paper_sizes (GtkPrintUnixDialog *dialog,
 static void
 update_paper_sizes (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_paper_sizes\n");
   GtkPageSetup *current_page_setup = NULL;
   GtkPrinter   *printer;
 
@@ -1746,6 +1796,7 @@ update_paper_sizes (GtkPrintUnixDialog *dialog)
 static void
 mark_conflicts (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> mark_conflicts\n");
   GtkPrinter *printer;
   gboolean have_conflict;
 
@@ -1769,6 +1820,7 @@ mark_conflicts (GtkPrintUnixDialog *dialog)
 static gboolean
 mark_conflicts_callback (gpointer data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> marks_conflictis_callback\n");
   GtkPrintUnixDialog *dialog = data;
 
   dialog->mark_conflicts_id = 0;
@@ -1781,6 +1833,7 @@ mark_conflicts_callback (gpointer data)
 static void
 unschedule_idle_mark_conflicts (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> uschedule_idle_mark_conflicts\n");
   if (dialog->mark_conflicts_id != 0)
     {
       g_source_remove (dialog->mark_conflicts_id);
@@ -1791,6 +1844,7 @@ unschedule_idle_mark_conflicts (GtkPrintUnixDialog *dialog)
 static void
 schedule_idle_mark_conflicts (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> schedule_idle_mark_conflicts\n");
   if (dialog->mark_conflicts_id != 0)
     return;
 
@@ -1802,6 +1856,7 @@ schedule_idle_mark_conflicts (GtkPrintUnixDialog *dialog)
 static void
 options_changed_cb (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> options_changed_cb\n");
   schedule_idle_mark_conflicts (dialog);
 
   g_free (dialog->waiting_for_printer);
@@ -1811,6 +1866,7 @@ options_changed_cb (GtkPrintUnixDialog *dialog)
 static void
 clear_per_printer_ui (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> clear_per_printer_ui\n");
   GtkWidget *child;
 
   if (dialog->finishing_table == NULL)
@@ -1833,6 +1889,7 @@ printer_details_acquired (GtkPrinter         *printer,
                           gboolean            success,
                           GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> printer_details_acquired\n");
   disconnect_printer_details_request (dialog, !success);
 
   if (success)
@@ -1842,6 +1899,7 @@ printer_details_acquired (GtkPrinter         *printer,
 static void
 selected_printer_changed (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> selected_printed_changed\n");
   GListModel *model = G_LIST_MODEL (gtk_column_view_get_model (GTK_COLUMN_VIEW (dialog->printer_list)));
   GtkPrinter *printer;
 
@@ -1943,6 +2001,7 @@ static void
 update_collate_icon (GtkToggleButton    *toggle_button,
                      GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_collate_icon\n");
   gboolean collate;
   gboolean reverse;
   int copies;
@@ -1975,6 +2034,7 @@ page_range_entry_focus_changed (GtkWidget          *entry,
                                 GParamSpec         *pspec,
                                 GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> page_range_entry_focus_changed\n");
   if (gtk_widget_has_focus (entry))
     gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->page_range_radio), TRUE);
 
@@ -1985,6 +2045,7 @@ static void
 update_page_range_entry_sensitivity (GtkWidget *button,
 				     GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_page_range_entry_sensitivitiy\n");
   gboolean active;
 
   active = gtk_check_button_get_active (GTK_CHECK_BUTTON (button));
@@ -1997,6 +2058,7 @@ static void
 update_print_at_entry_sensitivity (GtkWidget *button,
 				   GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> update_print_at_entry_sensitivity\n");
   gboolean active;
 
   active = gtk_check_button_get_active (GTK_CHECK_BUTTON (button));
@@ -2010,6 +2072,7 @@ update_print_at_entry_sensitivity (GtkWidget *button,
 static gboolean
 is_range_separator (char c)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  is_range_separator    \n");
   return (c == ',' || c == ';' || c == ':');
 }
 
@@ -2017,6 +2080,7 @@ static GtkPageRange *
 dialog_get_page_ranges (GtkPrintUnixDialog *dialog,
                         int                *n_ranges_out)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_get_page_ranges    \n");
   int i, n_ranges;
   const char *text, *p;
   char *next;
@@ -2098,6 +2162,7 @@ dialog_set_page_ranges (GtkPrintUnixDialog *dialog,
                         GtkPageRange       *ranges,
                         int                 n_ranges)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_set_page_ranges    \n");
   int i;
   GString *s = g_string_new (NULL);
 
@@ -2121,6 +2186,7 @@ dialog_set_page_ranges (GtkPrintUnixDialog *dialog,
 static GtkPrintPages
 dialog_get_print_pages (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->    dialog_get_print_pages  \n");
   if (gtk_check_button_get_active (GTK_CHECK_BUTTON (dialog->all_pages_radio)))
     return GTK_PRINT_PAGES_ALL;
   else if (gtk_check_button_get_active (GTK_CHECK_BUTTON (dialog->current_page_radio)))
@@ -2135,6 +2201,7 @@ static void
 dialog_set_print_pages (GtkPrintUnixDialog *dialog,
                         GtkPrintPages       pages)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_set_print_pages    \n");
   if (pages == GTK_PRINT_PAGES_RANGES)
     gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->page_range_radio), TRUE);
   else if (pages == GTK_PRINT_PAGES_CURRENT)
@@ -2158,12 +2225,14 @@ static void
 dialog_set_scale (GtkPrintUnixDialog *dialog,
                   double              val)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> dialog_set_scale     \n");
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->scale_spin), val);
 }
 
 static GtkPageSet
 dialog_get_page_set (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->    dialog_get_page_set  \n");
   if (gtk_widget_is_sensitive (dialog->page_set_combo))
     return (GtkPageSet)gtk_drop_down_get_selected (GTK_DROP_DOWN (dialog->page_set_combo));
   else
@@ -2174,12 +2243,14 @@ static void
 dialog_set_page_set (GtkPrintUnixDialog *dialog,
                      GtkPageSet          val)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> dialog_set_page_set     \n");
   gtk_drop_down_set_selected (GTK_DROP_DOWN (dialog->page_set_combo), (guint)val);
 }
 
 static int
 dialog_get_n_copies (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> dialog_get_n_copies     \n");
   GtkAdjustment *adjustment;
   const char *text;
   char *endptr = NULL;
@@ -2209,12 +2280,14 @@ static void
 dialog_set_n_copies (GtkPrintUnixDialog *dialog,
                      int                 n_copies)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->   dialog_set_n_copies   \n");
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->copies_spin), n_copies);
 }
 
 static gboolean
 dialog_get_collate (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> dialog_get_collate     \n");
   if (gtk_widget_is_sensitive (dialog->collate_check))
     return gtk_check_button_get_active (GTK_CHECK_BUTTON (dialog->collate_check));
   return TRUE;
@@ -2224,12 +2297,14 @@ static void
 dialog_set_collate (GtkPrintUnixDialog *dialog,
                     gboolean            collate)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_set_collate    \n");
   gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->collate_check), collate);
 }
 
 static gboolean
 dialog_get_reverse (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_get_reverse    \n");
   if (gtk_widget_is_sensitive (dialog->reverse_check))
     return gtk_check_button_get_active (GTK_CHECK_BUTTON (dialog->reverse_check));
   return FALSE;
@@ -2239,12 +2314,14 @@ static void
 dialog_set_reverse (GtkPrintUnixDialog *dialog,
                     gboolean            reverse)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_set_reverse    \n");
   gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->reverse_check), reverse);
 }
 
 static int
 dialog_get_pages_per_sheet (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> dialog_get_pages_per_sheet     \n");
   const char *val;
   int num;
 
@@ -2265,6 +2342,7 @@ dialog_get_pages_per_sheet (GtkPrintUnixDialog *dialog)
 static GtkNumberUpLayout
 dialog_get_number_up_layout (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  dialog_get_number_up_layout    \n");
   GtkPrintCapabilities       caps;
   GtkNumberUpLayout          layout;
   const char                *val;
@@ -2309,6 +2387,8 @@ draw_page (GtkDrawingArea *da,
            int             height,
            gpointer        data)
 {
+  
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> draw_page\n");
   GtkWidget *widget = GTK_WIDGET (da);
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (data);
   double ratio;
@@ -2705,6 +2785,7 @@ draw_page (GtkDrawingArea *da,
 static void
 redraw_page_layout_preview (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> redraw_page_layout_preview\n");
   if (dialog->page_layout_preview)
     gtk_widget_queue_draw (dialog->page_layout_preview);
 }
@@ -2712,6 +2793,7 @@ redraw_page_layout_preview (GtkPrintUnixDialog *dialog)
 static void
 update_number_up_layout (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  update_number_up_layout    \n");
   GtkPrintCapabilities       caps;
   GtkPrinterOptionSet       *set;
   GtkNumberUpLayout          layout;
@@ -2859,6 +2941,7 @@ custom_paper_dialog_response_cb (GtkDialog *custom_paper_dialog,
                                  int        response_id,
                                  gpointer   user_data)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  custom_paper_dialog_response_cb    \n");
   GtkPrintUnixDialog *dialog = GTK_PRINT_UNIX_DIALOG (user_data);
 
   dialog->internal_page_setup_change = TRUE;
@@ -2893,9 +2976,10 @@ orientation_changed (GObject            *object,
                      GParamSpec         *pspec,
                      GtkPrintUnixDialog *dialog)
 {
+  
   GtkPageOrientation orientation;
   GtkPageSetup *page_setup;
-
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> orientation_changes\n");
   if (dialog->internal_page_setup_change)
     return;
 
@@ -2918,10 +3002,11 @@ paper_size_changed (GtkDropDown *combo_box,
                     GParamSpec *pspec,
                     GtkPrintUnixDialog *dialog)
 {
+  
   GtkPageSetup *page_setup, *last_page_setup;
   GtkPageOrientation orientation;
   guint selected;
-
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> paper_size_changed\n");
   if (dialog->internal_page_setup_change)
     return;
 
@@ -2985,6 +3070,7 @@ GtkWidget *
 gtk_print_unix_dialog_new (const char *title,
                            GtkWindow   *parent)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_new     \n");
   GtkWidget *result;
 
   result = g_object_new (GTK_TYPE_PRINT_UNIX_DIALOG,
@@ -3006,6 +3092,7 @@ gtk_print_unix_dialog_new (const char *title,
 GtkPrinter *
 gtk_print_unix_dialog_get_selected_printer (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->   gtk_print_unix_dialog_get_selected_printer   \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), NULL);
 
   return dialog->current_printer;
@@ -3022,6 +3109,7 @@ void
 gtk_print_unix_dialog_set_page_setup (GtkPrintUnixDialog *dialog,
                                       GtkPageSetup       *page_setup)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_page_setup    \n");
   g_return_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog));
   g_return_if_fail (GTK_IS_PAGE_SETUP (page_setup));
 
@@ -3047,6 +3135,7 @@ gtk_print_unix_dialog_set_page_setup (GtkPrintUnixDialog *dialog,
 GtkPageSetup *
 gtk_print_unix_dialog_get_page_setup (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_page_setup    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), NULL);
 
   return dialog->page_setup;
@@ -3063,6 +3152,7 @@ gtk_print_unix_dialog_get_page_setup (GtkPrintUnixDialog *dialog)
 gboolean
 gtk_print_unix_dialog_get_page_setup_set (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_page_setup_set    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), FALSE);
 
   return dialog->page_setup_set;
@@ -3082,6 +3172,7 @@ void
 gtk_print_unix_dialog_set_current_page (GtkPrintUnixDialog *dialog,
                                         int                 current_page)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_current_page    \n");
   g_return_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog));
 
   if (dialog->current_page != current_page)
@@ -3106,6 +3197,7 @@ gtk_print_unix_dialog_set_current_page (GtkPrintUnixDialog *dialog,
 int
 gtk_print_unix_dialog_get_current_page (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_current_page    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), -1);
 
   return dialog->current_page;
@@ -3115,6 +3207,7 @@ static gboolean
 set_active_printer (GtkPrintUnixDialog *dialog,
                     const char         *printer_name)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> set_active_printer     \n");
   GListModel *model;
   GtkPrinter *printer;
   guint i;
@@ -3157,6 +3250,7 @@ void
 gtk_print_unix_dialog_set_settings (GtkPrintUnixDialog *dialog,
                                     GtkPrintSettings   *settings)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_settings    \n");
   const char *printer;
   GtkPageRange *ranges;
   int num_ranges;
@@ -3219,6 +3313,7 @@ gtk_print_unix_dialog_set_settings (GtkPrintUnixDialog *dialog,
 GtkPrintSettings *
 gtk_print_unix_dialog_get_settings (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_get_settings     \n");
   GtkPrintSettings *settings;
   GtkPrintPages print_pages;
   GtkPageRange *ranges;
@@ -3285,6 +3380,7 @@ gtk_print_unix_dialog_add_custom_tab (GtkPrintUnixDialog *dialog,
                                       GtkWidget          *child,
                                       GtkWidget          *tab_label)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_add_custom_tab    \n");
   gtk_notebook_insert_page (GTK_NOTEBOOK (dialog->notebook),
                             child, tab_label, 2);
   gtk_widget_set_visible (child, TRUE);
@@ -3308,6 +3404,7 @@ void
 gtk_print_unix_dialog_set_manual_capabilities (GtkPrintUnixDialog   *dialog,
                                                GtkPrintCapabilities  capabilities)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_manual_capabilites    \n");
   if (dialog->manual_capabilities != capabilities)
     {
       dialog->manual_capabilities = capabilities;
@@ -3334,6 +3431,7 @@ gtk_print_unix_dialog_set_manual_capabilities (GtkPrintUnixDialog   *dialog,
 GtkPrintCapabilities
 gtk_print_unix_dialog_get_manual_capabilities (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_manual_capabilites    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), FALSE);
 
   return dialog->manual_capabilities;
@@ -3350,6 +3448,7 @@ void
 gtk_print_unix_dialog_set_support_selection (GtkPrintUnixDialog *dialog,
                                              gboolean            support_selection)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_support_selection    \n");
   g_return_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog));
 
   support_selection = support_selection != FALSE;
@@ -3378,6 +3477,7 @@ gtk_print_unix_dialog_set_support_selection (GtkPrintUnixDialog *dialog,
 gboolean
 gtk_print_unix_dialog_get_support_selection (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_support_selection    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), FALSE);
 
   return dialog->support_selection;
@@ -3394,6 +3494,7 @@ void
 gtk_print_unix_dialog_set_has_selection (GtkPrintUnixDialog *dialog,
                                          gboolean            has_selection)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_set_has_selection    \n");
   g_return_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog));
 
   has_selection = has_selection != FALSE;
@@ -3424,6 +3525,7 @@ gtk_print_unix_dialog_set_has_selection (GtkPrintUnixDialog *dialog,
 gboolean
 gtk_print_unix_dialog_get_has_selection (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c -> gtk_print_unix_dialog_get_has_selection     \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), FALSE);
 
   return dialog->has_selection;
@@ -3440,6 +3542,7 @@ void
 gtk_print_unix_dialog_set_embed_page_setup (GtkPrintUnixDialog *dialog,
                                             gboolean            embed)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->   gtk_print_unix_dialog_set_embed_page_setup   \n");
   g_return_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog));
 
   embed = embed != FALSE;
@@ -3484,6 +3587,7 @@ gtk_print_unix_dialog_set_embed_page_setup (GtkPrintUnixDialog *dialog,
 gboolean
 gtk_print_unix_dialog_get_embed_page_setup (GtkPrintUnixDialog *dialog)
 {
+  g_print("yash kumar kasaudhan: gtkprintunixdialog.c ->  gtk_print_unix_dialog_get_embed_page_setup    \n");
   g_return_val_if_fail (GTK_IS_PRINT_UNIX_DIALOG (dialog), FALSE);
 
   return dialog->embed_page_setup;

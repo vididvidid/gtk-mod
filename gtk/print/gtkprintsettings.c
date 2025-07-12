@@ -70,6 +70,7 @@ G_DEFINE_TYPE (GtkPrintSettings, gtk_print_settings, G_TYPE_OBJECT)
 static void
 gtk_print_settings_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_finalize \n");
   GtkPrintSettings *settings = GTK_PRINT_SETTINGS (object);
 
   g_hash_table_destroy (settings->hash);
@@ -80,6 +81,7 @@ gtk_print_settings_finalize (GObject *object)
 static void
 gtk_print_settings_init (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_init \n");
   settings->hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 					  g_free, g_free);
 }
@@ -87,6 +89,7 @@ gtk_print_settings_init (GtkPrintSettings *settings)
 static void
 gtk_print_settings_class_init (GtkPrintSettingsClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_class_init \n");
   GObjectClass *gobject_class = (GObjectClass *)class;
 
   gobject_class->finalize = gtk_print_settings_finalize;
@@ -101,7 +104,9 @@ gtk_print_settings_class_init (GtkPrintSettingsClass *class)
  */
 GtkPrintSettings *
 gtk_print_settings_new (void)
+	
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_new \n");	
   return g_object_new (GTK_TYPE_PRINT_SETTINGS, NULL);
 }
 
@@ -110,6 +115,7 @@ copy_hash_entry  (gpointer  key,
 		  gpointer  value,
 		  gpointer  user_data)
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> copy_hash_entry \n");
   GtkPrintSettings *settings = user_data;
 
   g_hash_table_insert (settings->hash,
@@ -130,6 +136,7 @@ copy_hash_entry  (gpointer  key,
 GtkPrintSettings *
 gtk_print_settings_copy (GtkPrintSettings *other)
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_copy \n");
   GtkPrintSettings *settings;
 
   if (other == NULL)
@@ -159,6 +166,7 @@ const char *
 gtk_print_settings_get (GtkPrintSettings *settings,
 			const char       *key)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get \n");
   return g_hash_table_lookup (settings->hash, key);
 }
 
@@ -175,6 +183,7 @@ gtk_print_settings_set (GtkPrintSettings *settings,
 			const char       *key,
 			const char       *value)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set \n");
   if (value == NULL)
     gtk_print_settings_unset (settings, key);
   else
@@ -196,6 +205,7 @@ void
 gtk_print_settings_unset (GtkPrintSettings *settings,
 			  const char       *key)
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_unset  \n");
   g_hash_table_remove (settings->hash, key);
 }
 
@@ -212,6 +222,7 @@ gboolean
 gtk_print_settings_has_key (GtkPrintSettings *settings,
 			    const char       *key)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_has_key \n");
   return gtk_print_settings_get (settings, key) != NULL;
 }
 
@@ -233,6 +244,7 @@ gboolean
 gtk_print_settings_get_bool (GtkPrintSettings *settings,
 			     const char       *key)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_bool \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, key);
@@ -262,6 +274,7 @@ gtk_print_settings_get_bool_with_default (GtkPrintSettings *settings,
 					  const char       *key,
 					  gboolean          default_val)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_bool_with_default \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, key);
@@ -287,6 +300,7 @@ gtk_print_settings_set_bool (GtkPrintSettings *settings,
 			     const char       *key,
 			     gboolean          value)
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_bool  \n");
   if (value)
     gtk_print_settings_set (settings, key, "true");
   else
@@ -312,6 +326,7 @@ gtk_print_settings_get_double_with_default (GtkPrintSettings *settings,
 					    const char       *key,
 					    double            def)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_get_double_with_default \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, key);
@@ -334,6 +349,7 @@ double
 gtk_print_settings_get_double (GtkPrintSettings *settings,
 			       const char       *key)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_double \n");
   return gtk_print_settings_get_double_with_default (settings, key, 0.0);
 }
 
@@ -350,6 +366,8 @@ gtk_print_settings_set_double (GtkPrintSettings *settings,
 			       const char       *key,
 			       double            value)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_pritn_settings_set_double  \n");
+	
   char buf[G_ASCII_DTOSTR_BUF_SIZE];
 
   g_ascii_dtostr (buf, G_ASCII_DTOSTR_BUF_SIZE, value);
@@ -374,6 +392,7 @@ gtk_print_settings_get_length (GtkPrintSettings *settings,
 			       const char       *key,
 			       GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_length \n");
   double length = gtk_print_settings_get_double (settings, key);
   return _gtk_print_convert_from_mm (length, unit);
 }
@@ -393,6 +412,7 @@ gtk_print_settings_set_length (GtkPrintSettings *settings,
 			       double            value,
 			       GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk+print_settings_set_length \n");
   gtk_print_settings_set_double (settings, key,
 				 _gtk_print_convert_to_mm (value, unit));
 }
@@ -413,6 +433,7 @@ gtk_print_settings_get_int_with_default (GtkPrintSettings *settings,
 					 const char       *key,
 					 int               def)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_get_int_width_default \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, key);
@@ -435,6 +456,7 @@ int
 gtk_print_settings_get_int (GtkPrintSettings *settings,
 			    const char       *key)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_int \n");
   return gtk_print_settings_get_int_with_default (settings, key, 0);
 }
 
@@ -451,6 +473,7 @@ gtk_print_settings_set_int (GtkPrintSettings *settings,
 			    const char       *key,
 			    int               value)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_int \n");
   char buf[128];
   g_sprintf (buf, "%d", value);
   gtk_print_settings_set (settings, key, buf);
@@ -469,6 +492,7 @@ gtk_print_settings_foreach (GtkPrintSettings    *settings,
 			    GtkPrintSettingsFunc func,
 			    gpointer             user_data)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_foreach \n");
   g_hash_table_foreach (settings->hash, (GHFunc)func, user_data);
 }
 
@@ -484,6 +508,7 @@ gtk_print_settings_foreach (GtkPrintSettings    *settings,
 const char *
 gtk_print_settings_get_printer (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_printer \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_PRINTER);
 }
 
@@ -500,6 +525,7 @@ void
 gtk_print_settings_set_printer (GtkPrintSettings *settings,
 				const char       *printer)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_pritn_settings_set_printer \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_PRINTER, printer);
 }
 
@@ -515,6 +541,7 @@ gtk_print_settings_set_printer (GtkPrintSettings *settings,
 GtkPageOrientation
 gtk_print_settings_get_orientation (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_get_orientation \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_ORIENTATION);
@@ -545,6 +572,7 @@ void
 gtk_print_settings_set_orientation (GtkPrintSettings   *settings,
 				    GtkPageOrientation  orientation)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_orientation \n");
   const char *val;
 
   switch (orientation)
@@ -578,6 +606,7 @@ gtk_print_settings_set_orientation (GtkPrintSettings   *settings,
 GtkPaperSize *
 gtk_print_settings_get_paper_size (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_pritn_settings_get_paper_size \n");
   const char *val;
   const char *name;
   double w, h;
@@ -610,6 +639,7 @@ void
 gtk_print_settings_set_paper_size (GtkPrintSettings *settings,
 				   GtkPaperSize     *paper_size)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_paper_size \n");
   char *custom_name;
 
   if (paper_size == NULL)
@@ -652,6 +682,7 @@ double
 gtk_print_settings_get_paper_width (GtkPrintSettings *settings,
 				    GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_paper_width \n");
   return gtk_print_settings_get_length (settings, GTK_PRINT_SETTINGS_PAPER_WIDTH, unit);
 }
 
@@ -668,6 +699,7 @@ gtk_print_settings_set_paper_width (GtkPrintSettings *settings,
 				    double            width,
 				    GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_paper_width \n");
   gtk_print_settings_set_length (settings, GTK_PRINT_SETTINGS_PAPER_WIDTH, width, unit);
 }
 
@@ -685,6 +717,7 @@ double
 gtk_print_settings_get_paper_height (GtkPrintSettings *settings,
 				     GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_paper_hegiht \n");
   return gtk_print_settings_get_length (settings,
 					GTK_PRINT_SETTINGS_PAPER_HEIGHT,
 					unit);
@@ -703,6 +736,7 @@ gtk_print_settings_set_paper_height (GtkPrintSettings *settings,
 				     double            height,
 				     GtkUnit           unit)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_paper_hegiht \n");
   gtk_print_settings_set_length (settings,
 				 GTK_PRINT_SETTINGS_PAPER_HEIGHT,
 				 height, unit);
@@ -719,6 +753,7 @@ gtk_print_settings_set_paper_height (GtkPrintSettings *settings,
 gboolean
 gtk_print_settings_get_use_color (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_use_color \n");
   return gtk_print_settings_get_bool_with_default (settings,
 						   GTK_PRINT_SETTINGS_USE_COLOR,
 						   TRUE);
@@ -735,6 +770,8 @@ void
 gtk_print_settings_set_use_color (GtkPrintSettings *settings,
 				  gboolean          use_color)
 {
+
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_use_color \n");
   gtk_print_settings_set_bool (settings,
 			       GTK_PRINT_SETTINGS_USE_COLOR,
 			       use_color);
@@ -751,6 +788,7 @@ gtk_print_settings_set_use_color (GtkPrintSettings *settings,
 gboolean
 gtk_print_settings_get_collate (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_collate \n");
   return gtk_print_settings_get_bool_with_default (settings,
                                                    GTK_PRINT_SETTINGS_COLLATE,
                                                    TRUE);
@@ -767,6 +805,7 @@ void
 gtk_print_settings_set_collate (GtkPrintSettings *settings,
 				gboolean          collate)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_pritn_settings_set_collate \n");
   gtk_print_settings_set_bool (settings,
 			       GTK_PRINT_SETTINGS_COLLATE,
 			       collate);
@@ -783,6 +822,7 @@ gtk_print_settings_set_collate (GtkPrintSettings *settings,
 gboolean
 gtk_print_settings_get_reverse (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_pritn_settings_get_reverse \n");
   return gtk_print_settings_get_bool (settings,
 				      GTK_PRINT_SETTINGS_REVERSE);
 }
@@ -798,6 +838,7 @@ void
 gtk_print_settings_set_reverse (GtkPrintSettings *settings,
 				  gboolean        reverse)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_reverse \n");
   gtk_print_settings_set_bool (settings,
 			       GTK_PRINT_SETTINGS_REVERSE,
 			       reverse);
@@ -814,6 +855,7 @@ gtk_print_settings_set_reverse (GtkPrintSettings *settings,
 GtkPrintDuplex
 gtk_print_settings_get_duplex (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_duplex \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_DUPLEX);
@@ -841,6 +883,7 @@ void
 gtk_print_settings_set_duplex (GtkPrintSettings *settings,
 			       GtkPrintDuplex    duplex)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_set_duplex \n");
   const char *str;
 
   switch (duplex)
@@ -871,6 +914,7 @@ gtk_print_settings_set_duplex (GtkPrintSettings *settings,
 GtkPrintQuality
 gtk_print_settings_get_quality (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_quality \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_QUALITY);
@@ -901,6 +945,7 @@ void
 gtk_print_settings_set_quality (GtkPrintSettings *settings,
 				GtkPrintQuality   quality)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_quality \n");
   const char *str;
 
   switch (quality)
@@ -934,6 +979,7 @@ gtk_print_settings_set_quality (GtkPrintSettings *settings,
 GtkPageSet
 gtk_print_settings_get_page_set (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_page_set \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_PAGE_SET);
@@ -961,6 +1007,7 @@ void
 gtk_print_settings_set_page_set (GtkPrintSettings *settings,
 				 GtkPageSet        page_set)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_page_set \n");
   const char *str;
 
   switch (page_set)
@@ -991,6 +1038,7 @@ gtk_print_settings_set_page_set (GtkPrintSettings *settings,
 GtkNumberUpLayout
 gtk_print_settings_get_number_up_layout (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_number_up_layout \n");
   GtkNumberUpLayout layout;
   GtkTextDirection  text_direction;
   GEnumClass       *enum_class;
@@ -1030,6 +1078,7 @@ void
 gtk_print_settings_set_number_up_layout (GtkPrintSettings  *settings,
 					 GtkNumberUpLayout  number_up_layout)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_number_up_layout \n");
   GEnumClass *enum_class;
   GEnumValue *enum_value;
 
@@ -1054,6 +1103,7 @@ gtk_print_settings_set_number_up_layout (GtkPrintSettings  *settings,
 int
 gtk_print_settings_get_n_copies (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_n_copies \n");
   return gtk_print_settings_get_int_with_default (settings, GTK_PRINT_SETTINGS_N_COPIES, 1);
 }
 
@@ -1068,6 +1118,7 @@ void
 gtk_print_settings_set_n_copies (GtkPrintSettings *settings,
 				 int               num_copies)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_n_copies \n");
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_N_COPIES,
 			      num_copies);
 }
@@ -1083,6 +1134,7 @@ gtk_print_settings_set_n_copies (GtkPrintSettings *settings,
 int
 gtk_print_settings_get_number_up (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_number_up \n");
   return gtk_print_settings_get_int_with_default (settings, GTK_PRINT_SETTINGS_NUMBER_UP, 1);
 }
 
@@ -1097,6 +1149,7 @@ void
 gtk_print_settings_set_number_up (GtkPrintSettings *settings,
 				  int               number_up)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settins_set_number_up \n");
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_NUMBER_UP,
 				number_up);
 }
@@ -1112,6 +1165,7 @@ gtk_print_settings_set_number_up (GtkPrintSettings *settings,
 int
 gtk_print_settings_get_resolution (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_resolution \n");
   return gtk_print_settings_get_int_with_default (settings, GTK_PRINT_SETTINGS_RESOLUTION, 300);
 }
 
@@ -1128,6 +1182,7 @@ void
 gtk_print_settings_set_resolution (GtkPrintSettings *settings,
 				   int               resolution)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_resolution \n");
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_RESOLUTION,
 			      resolution);
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_RESOLUTION_X,
@@ -1147,6 +1202,7 @@ gtk_print_settings_set_resolution (GtkPrintSettings *settings,
 int
 gtk_print_settings_get_resolution_x (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_resolution \n");
   return gtk_print_settings_get_int_with_default (settings, GTK_PRINT_SETTINGS_RESOLUTION_X, 300);
 }
 
@@ -1161,6 +1217,7 @@ gtk_print_settings_get_resolution_x (GtkPrintSettings *settings)
 int
 gtk_print_settings_get_resolution_y (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_resolution_y \n");
   return gtk_print_settings_get_int_with_default (settings, GTK_PRINT_SETTINGS_RESOLUTION_Y, 300);
 }
 
@@ -1179,6 +1236,7 @@ gtk_print_settings_set_resolution_xy (GtkPrintSettings *settings,
 				      int               resolution_x,
 				      int               resolution_y)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_resolution_xy \n");
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_RESOLUTION_X,
 			      resolution_x);
   gtk_print_settings_set_int (settings, GTK_PRINT_SETTINGS_RESOLUTION_Y,
@@ -1198,6 +1256,7 @@ gtk_print_settings_set_resolution_xy (GtkPrintSettings *settings,
 double
 gtk_print_settings_get_printer_lpi (GtkPrintSettings *settings)
 {
+	g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settigns_get_printer_lpi \n");
   return gtk_print_settings_get_double_with_default (settings, GTK_PRINT_SETTINGS_PRINTER_LPI, 150.0);
 }
 
@@ -1212,6 +1271,7 @@ void
 gtk_print_settings_set_printer_lpi (GtkPrintSettings *settings,
 				    double            lpi)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_printer_lpi \n");
   gtk_print_settings_set_double (settings, GTK_PRINT_SETTINGS_PRINTER_LPI,
 			         lpi);
 }
@@ -1227,6 +1287,7 @@ gtk_print_settings_set_printer_lpi (GtkPrintSettings *settings,
 double
 gtk_print_settings_get_scale (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_scale \n");
   return gtk_print_settings_get_double_with_default (settings,
 						     GTK_PRINT_SETTINGS_SCALE,
 						     100.0);
@@ -1243,6 +1304,7 @@ void
 gtk_print_settings_set_scale (GtkPrintSettings *settings,
 			      double            scale)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_scale \n");
   gtk_print_settings_set_double (settings, GTK_PRINT_SETTINGS_SCALE,
 				 scale);
 }
@@ -1258,6 +1320,7 @@ gtk_print_settings_set_scale (GtkPrintSettings *settings,
 GtkPrintPages
 gtk_print_settings_get_print_pages (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_print_pages \n");
   const char *val;
 
   val = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_PRINT_PAGES);
@@ -1288,6 +1351,7 @@ void
 gtk_print_settings_set_print_pages (GtkPrintSettings *settings,
 				    GtkPrintPages     pages)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_print_pages \n");
   const char *str;
 
   switch (pages)
@@ -1325,6 +1389,7 @@ GtkPageRange *
 gtk_print_settings_get_page_ranges (GtkPrintSettings *settings,
 				    int              *num_ranges)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_page_ranges \n");
   const char *val;
   char **range_strs;
   GtkPageRange *ranges;
@@ -1384,6 +1449,7 @@ gtk_print_settings_set_page_ranges  (GtkPrintSettings *settings,
 				     GtkPageRange     *page_ranges,
 				     int               num_ranges)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_page_ranges \n");
   GString *s;
   int i;
 
@@ -1419,6 +1485,7 @@ gtk_print_settings_set_page_ranges  (GtkPrintSettings *settings,
 const char *
 gtk_print_settings_get_default_source (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_default_source \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_DEFAULT_SOURCE);
 }
 
@@ -1433,6 +1500,7 @@ void
 gtk_print_settings_set_default_source (GtkPrintSettings *settings,
 				       const char       *default_source)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_default_source \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_DEFAULT_SOURCE, default_source);
 }
 
@@ -1449,6 +1517,7 @@ gtk_print_settings_set_default_source (GtkPrintSettings *settings,
 const char *
 gtk_print_settings_get_media_type (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_media_type \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_MEDIA_TYPE);
 }
 
@@ -1465,6 +1534,7 @@ void
 gtk_print_settings_set_media_type (GtkPrintSettings *settings,
 				   const char       *media_type)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_media_type \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_MEDIA_TYPE, media_type);
 }
 
@@ -1479,6 +1549,7 @@ gtk_print_settings_set_media_type (GtkPrintSettings *settings,
 const char *
 gtk_print_settings_get_dither (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_dither \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_DITHER);
 }
 
@@ -1493,6 +1564,7 @@ void
 gtk_print_settings_set_dither (GtkPrintSettings *settings,
 			       const char       *dither)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_dither \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_DITHER, dither);
 }
 
@@ -1507,6 +1579,7 @@ gtk_print_settings_set_dither (GtkPrintSettings *settings,
 const char *
 gtk_print_settings_get_finishings (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_finishing \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_FINISHINGS);
 }
 
@@ -1521,6 +1594,7 @@ void
 gtk_print_settings_set_finishings (GtkPrintSettings *settings,
 				   const char       *finishings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_finishing \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_FINISHINGS, finishings);
 }
 
@@ -1535,6 +1609,7 @@ gtk_print_settings_set_finishings (GtkPrintSettings *settings,
 const char *
 gtk_print_settings_get_output_bin (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_get_output_bin \n");
   return gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_OUTPUT_BIN);
 }
 
@@ -1549,6 +1624,7 @@ void
 gtk_print_settings_set_output_bin (GtkPrintSettings *settings,
 				   const char       *output_bin)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_set_output_bin \n");
   gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_OUTPUT_BIN, output_bin);
 }
 
@@ -1572,6 +1648,7 @@ gtk_print_settings_load_file (GtkPrintSettings *settings,
                               const char       *file_name,
                               GError          **error)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_load_file \n");
   gboolean retval = FALSE;
   GKeyFile *key_file;
 
@@ -1608,6 +1685,7 @@ GtkPrintSettings *
 gtk_print_settings_new_from_file (const char   *file_name,
 			          GError      **error)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_new_from_file \n");
   GtkPrintSettings *settings = gtk_print_settings_new ();
 
   if (!gtk_print_settings_load_file (settings, file_name, error))
@@ -1640,6 +1718,7 @@ gtk_print_settings_load_key_file (GtkPrintSettings *settings,
 				  const char       *group_name,
 				  GError          **error)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_load_key_file \n");
   char **keys;
   gsize n_keys, i;
   GError *err = NULL;
@@ -1700,6 +1779,7 @@ gtk_print_settings_new_from_key_file (GKeyFile     *key_file,
 				      const char   *group_name,
 				      GError      **error)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_new_from_key_file \n");
   GtkPrintSettings *settings = gtk_print_settings_new ();
 
   if (!gtk_print_settings_load_key_file (settings, key_file,
@@ -1730,6 +1810,7 @@ gtk_print_settings_to_file (GtkPrintSettings  *settings,
 			    const char        *file_name,
 			    GError           **error)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_to_file \n");
   GKeyFile *key_file;
   gboolean retval = FALSE;
   char *data = NULL;
@@ -1768,6 +1849,7 @@ add_value_to_key_file (const char   *key,
 		       const char   *value,
 		       SettingsData *data)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> add_value_to_key_file \n");
   g_key_file_set_string (data->key_file, data->group_name, key, value);
 }
 
@@ -1785,6 +1867,7 @@ gtk_print_settings_to_key_file (GtkPrintSettings  *settings,
 			        GKeyFile          *key_file,
 				const char        *group_name)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_to_key_file \n");
   SettingsData data;
 
   g_return_if_fail (GTK_IS_PRINT_SETTINGS (settings));
@@ -1806,6 +1889,7 @@ add_to_variant (const char *key,
                 const char *value,
                 gpointer     data)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> add_to_variant  \n");
   GVariantBuilder *builder = data;
   g_variant_builder_add (builder, "{sv}", key, g_variant_new_string (value));
 }
@@ -1821,6 +1905,7 @@ add_to_variant (const char *key,
 GVariant *
 gtk_print_settings_to_gvariant (GtkPrintSettings *settings)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_to_gvariant \n");
   GVariantBuilder builder;
 
   g_variant_builder_init (&builder, G_VARIANT_TYPE_VARDICT);
@@ -1843,6 +1928,7 @@ gtk_print_settings_to_gvariant (GtkPrintSettings *settings)
 GtkPrintSettings *
 gtk_print_settings_new_from_gvariant (GVariant *variant)
 {
+g_print("yash kumar kasaudhan: gtkprintsettings.c -> gtk_print_settings_new_from_gvariant` \n");
   GtkPrintSettings *settings;
   int i;
 

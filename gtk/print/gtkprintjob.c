@@ -126,6 +126,7 @@ G_DEFINE_TYPE (GtkPrintJob, gtk_print_job, G_TYPE_OBJECT)
 static void
 gtk_print_job_class_init (GtkPrintJobClass *class)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_class_init \n");
   GObjectClass *object_class;
   object_class = (GObjectClass *) class;
 
@@ -216,6 +217,7 @@ gtk_print_job_class_init (GtkPrintJobClass *class)
 static void
 gtk_print_job_init (GtkPrintJob *job)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_init \n");
   job->spool_io = NULL;
 
   job->title = g_strdup ("");
@@ -246,6 +248,7 @@ gtk_print_job_init (GtkPrintJob *job)
 static void
 gtk_print_job_constructed (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_constructed \n");
   GtkPrintJob *job = GTK_PRINT_JOB (object);
 
   G_OBJECT_CLASS (gtk_print_job_parent_class)->constructed (object);
@@ -264,6 +267,7 @@ gtk_print_job_constructed (GObject *object)
 static void
 gtk_print_job_finalize (GObject *object)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_finalize \n");
   GtkPrintJob *job = GTK_PRINT_JOB (object);
 
   if (job->surface)
@@ -313,6 +317,7 @@ gtk_print_job_new (const char       *title,
 		   GtkPrintSettings *settings,
 		   GtkPageSetup     *page_setup)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_new \n");
   GObject *result;
   result = g_object_new (GTK_TYPE_PRINT_JOB,
                          "title", title,
@@ -334,6 +339,7 @@ gtk_print_job_new (const char       *title,
 GtkPrintSettings *
 gtk_print_job_get_settings (GtkPrintJob *job)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_settings \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), NULL);
 
   return job->settings;
@@ -350,6 +356,7 @@ gtk_print_job_get_settings (GtkPrintJob *job)
 GtkPrinter *
 gtk_print_job_get_printer (GtkPrintJob *job)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_printer \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), NULL);
 
   return job->printer;
@@ -366,6 +373,7 @@ gtk_print_job_get_printer (GtkPrintJob *job)
 const char *
 gtk_print_job_get_title (GtkPrintJob *job)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_title \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), NULL);
 
   return job->title;
@@ -382,6 +390,7 @@ gtk_print_job_get_title (GtkPrintJob *job)
 GtkPrintStatus
 gtk_print_job_get_status (GtkPrintJob *job)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_status  \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), GTK_PRINT_STATUS_FINISHED);
 
   return job->status;
@@ -391,6 +400,7 @@ void
 gtk_print_job_set_status (GtkPrintJob   *job,
 			  GtkPrintStatus status)
 {
+g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_status \n");
   g_return_if_fail (GTK_IS_PRINT_JOB (job));
 
   if (job->status == status)
@@ -421,6 +431,7 @@ gtk_print_job_set_source_file (GtkPrintJob *job,
 			       const char *filename,
 			       GError     **error)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_source_file \n");
   GError *tmp_error;
 
   tmp_error = NULL;
@@ -469,6 +480,7 @@ gtk_print_job_set_source_fd (GtkPrintJob  *job,
                              int           fd,
                              GError      **error)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_source_fd \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), FALSE);
   g_return_val_if_fail (fd >= 0, FALSE);
 
@@ -496,6 +508,7 @@ cairo_surface_t *
 gtk_print_job_get_surface (GtkPrintJob  *job,
 			   GError      **error)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_surface  \n");
   char *filename = NULL;
   double width, height;
   GtkPaperSize *paper_size;
@@ -570,6 +583,7 @@ void
 gtk_print_job_set_track_print_status (GtkPrintJob *job,
 				      gboolean     track_status)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_track_print_status \n");
   g_return_if_fail (GTK_IS_PRINT_JOB (job));
 
   track_status = track_status != FALSE;
@@ -595,6 +609,7 @@ gtk_print_job_set_track_print_status (GtkPrintJob *job,
 gboolean
 gtk_print_job_get_track_print_status (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_track_print_status \n");
   g_return_val_if_fail (GTK_IS_PRINT_JOB (job), FALSE);
 
   return job->track_print_status;
@@ -652,6 +667,7 @@ gtk_print_job_get_property (GObject    *object,
 			    GValue     *value,
 			    GParamSpec *pspec)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_property \n");
   GtkPrintJob *job = GTK_PRINT_JOB (object);
 
   switch (prop_id)
@@ -693,6 +709,7 @@ gtk_print_job_send (GtkPrintJob             *job,
                     gpointer                 user_data,
 		    GDestroyNotify           dnotify)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_send \n");
   g_return_if_fail (GTK_IS_PRINT_JOB (job));
   g_return_if_fail (job->spool_io != NULL);
 
@@ -717,6 +734,7 @@ gtk_print_job_send (GtkPrintJob             *job,
 GtkPrintPages
 gtk_print_job_get_pages (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_pages \n");
   return job->print_pages;
 }
 
@@ -731,6 +749,7 @@ void
 gtk_print_job_set_pages (GtkPrintJob   *job,
                          GtkPrintPages  pages)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_pages \n");
   job->print_pages = pages;
 }
 
@@ -748,6 +767,8 @@ GtkPageRange *
 gtk_print_job_get_page_ranges (GtkPrintJob *job,
                                int         *n_ranges)
 {
+	
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_page_ranges \n");
   *n_ranges = job->num_page_ranges;
   return job->page_ranges;
 }
@@ -766,6 +787,8 @@ gtk_print_job_set_page_ranges (GtkPrintJob  *job,
                                GtkPageRange *ranges,
                                int           n_ranges)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_page_ranges \n");
+	
   g_free (job->page_ranges);
   job->page_ranges = ranges;
   job->num_page_ranges = n_ranges;
@@ -782,6 +805,7 @@ gtk_print_job_set_page_ranges (GtkPrintJob  *job,
 GtkPageSet
 gtk_print_job_get_page_set (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> * \n");
   return job->page_set;
 }
 
@@ -796,6 +820,7 @@ void
 gtk_print_job_set_page_set (GtkPrintJob *job,
                             GtkPageSet   page_set)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_page_set \n");
   job->page_set = page_set;
 }
 
@@ -810,6 +835,7 @@ gtk_print_job_set_page_set (GtkPrintJob *job,
 int
 gtk_print_job_get_num_copies (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_num_copies \n");
   return job->num_copies;
 }
 
@@ -824,6 +850,7 @@ void
 gtk_print_job_set_num_copies (GtkPrintJob *job,
                               int          num_copies)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_num_copies \n");
   job->num_copies = num_copies;
 }
 
@@ -855,6 +882,7 @@ void
 gtk_print_job_set_scale (GtkPrintJob *job,
                          double       scale)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_pritn_job_set_scale \n");
   job->scale = scale;
 }
 
@@ -869,6 +897,7 @@ gtk_print_job_set_scale (GtkPrintJob *job,
 guint
 gtk_print_job_get_n_up (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_n_up \n");
   return job->number_up;
 }
 
@@ -883,6 +912,7 @@ void
 gtk_print_job_set_n_up (GtkPrintJob *job,
                         guint        n_up)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_n_up \n");
   job->number_up = n_up;
 }
 
@@ -897,6 +927,7 @@ gtk_print_job_set_n_up (GtkPrintJob *job,
 GtkNumberUpLayout
 gtk_print_job_get_n_up_layout (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_n_up_layout \n");
   return job->number_up_layout;
 }
 
@@ -911,6 +942,7 @@ void
 gtk_print_job_set_n_up_layout (GtkPrintJob       *job,
                                GtkNumberUpLayout  layout)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_n_up_layout \n");
   job->number_up_layout = layout;
 }
 
@@ -925,6 +957,7 @@ gtk_print_job_set_n_up_layout (GtkPrintJob       *job,
 gboolean
 gtk_print_job_get_rotate (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_rotate \n");
   return job->rotate_to_orientation;
 }
 
@@ -939,6 +972,7 @@ void
 gtk_print_job_set_rotate (GtkPrintJob *job,
                           gboolean     rotate)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_jop_set_rotate \n");
   job->rotate_to_orientation = rotate;
 }
 
@@ -953,6 +987,7 @@ gtk_print_job_set_rotate (GtkPrintJob *job,
 gboolean
 gtk_print_job_get_collate (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> * \n");
   return job->collate;
 }
 
@@ -967,6 +1002,7 @@ void
 gtk_print_job_set_collate (GtkPrintJob *job,
                            gboolean     collate)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_collate  \n");
   job->collate = collate;
 }
 
@@ -981,6 +1017,7 @@ gtk_print_job_set_collate (GtkPrintJob *job,
 gboolean
 gtk_print_job_get_reverse (GtkPrintJob *job)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_get_reverse \n");
   return job->reverse;
 }
 
@@ -995,5 +1032,6 @@ void
 gtk_print_job_set_reverse (GtkPrintJob *job,
                            gboolean     reverse)
 {
+	g_print("yash kumar kasaudhan: gtkprintjob.c -> gtk_print_job_set_reverse \n");
   job->reverse = reverse;
 }
