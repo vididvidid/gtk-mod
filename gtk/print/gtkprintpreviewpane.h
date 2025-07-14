@@ -40,7 +40,7 @@ struct _GtkPrintPreviewPaneClass
     GtkDialogClass parent_class;
     
     /* Signals */
-    void (*preview_finsihed) (GtkPrintPreviewPane *pane, GtkPrintPreviewResult result);
+    void (*preview_finished) (GtkPrintPreviewPane *pane, GtkPrintPreviewResult result);
     
     /* Padding for future expansion */
     void (*_gtk_reserved1) (void);

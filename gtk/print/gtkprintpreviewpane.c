@@ -43,7 +43,7 @@ struct _GtkPrintPreviewPanePrivate
 };
 
 enum {
-    PREVIEW_FINSIHED,  // Keeping the typo to match your header
+    PREVIEW_FINISHED,  // Keeping the typo to match your header
     LAST_SIGNAL
 };
 
@@ -133,7 +133,7 @@ print_clicked_cb (GtkButton *button,
                   gpointer   user_data)
 {
     GtkPrintPreviewPane *pane = GTK_PRINT_PREVIEW_PANE (user_data);
-    g_signal_emit (pane, signals[PREVIEW_FINSIHED], 0, GTK_PRINT_PREVIEW_RESULT_PRINT);
+    g_signal_emit (pane, signals[PREVIEW_FINISHED], 0, GTK_PRINT_PREVIEW_RESULT_PRINT);
 }
 
 static void
@@ -141,7 +141,7 @@ close_clicked_cb (GtkButton *button,
                   gpointer   user_data)
 {
     GtkPrintPreviewPane *pane = GTK_PRINT_PREVIEW_PANE (user_data);
-    g_signal_emit (pane, signals[PREVIEW_FINSIHED], 0, GTK_PRINT_PREVIEW_RESULT_CANCEL);
+    g_signal_emit (pane, signals[PREVIEW_FINISHED], 0, GTK_PRINT_PREVIEW_RESULT_CANCEL);
 }
 
 /* Update functions */
@@ -198,7 +198,7 @@ on_close_request (GtkWindow *window,
                   gpointer   user_data)
 {
     GtkPrintPreviewPane *pane = GTK_PRINT_PREVIEW_PANE (window);
-    g_signal_emit (pane, signals[PREVIEW_FINSIHED], 0, GTK_PRINT_PREVIEW_RESULT_CANCEL);
+    g_signal_emit (pane, signals[PREVIEW_FINISHED], 0, GTK_PRINT_PREVIEW_RESULT_CANCEL);
     return TRUE; /* Prevent default close */
 }
 
@@ -276,11 +276,11 @@ gtk_print_preview_pane_class_init (GtkPrintPreviewPaneClass *class)
     object_class->finalize = gtk_print_preview_pane_finalize;
     
     /* Signals */
-    signals[PREVIEW_FINSIHED] =
-        g_signal_new (I_("preview-finsihed"),
+    signals[PREVIEW_FINISHED] =
+        g_signal_new (I_("preview-finished"),
                       G_TYPE_FROM_CLASS (class),
                       G_SIGNAL_RUN_LAST,
-                      G_STRUCT_OFFSET (GtkPrintPreviewPaneClass, preview_finsihed),
+                      G_STRUCT_OFFSET (GtkPrintPreviewPaneClass, preview_finished),
                       NULL, NULL,
                       NULL,
                       G_TYPE_NONE, 1,
