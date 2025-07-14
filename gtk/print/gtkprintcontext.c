@@ -208,13 +208,15 @@ gtk_print_context_set_cairo_context (GtkPrintContext *context,
 				     double           dpi_y)
 {
 g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtK_print_context_set_cairo_context  \n");
-  if (context->cr)
+  if (context->cr){
+    g_print("if(context->cr)\n");
     cairo_destroy (context->cr);
+  }
 
   context->cr = cairo_reference (cr);
   context->surface_dpi_x = dpi_x;
   context->surface_dpi_y = dpi_y;
-
+  g_print("before the switch statement\n");
   switch (context->op->priv->unit)
     {
     default:
@@ -236,9 +238,11 @@ g_print("yash kumar kasaudhan: gtkprintcontext.c -> gtK_print_context_set_cairo_
       context->pixels_per_unit_y = dpi_y / MM_PER_INCH;
       break;
     }
+    g_print("after the switch statmenet \n");
   cairo_scale (context->cr,
 	       context->pixels_per_unit_x,
 	       context->pixels_per_unit_y);
+        g_print("at the end of the function \n");
 }
 
 

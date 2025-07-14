@@ -393,6 +393,7 @@ gtk_print_preview_pane_init (GtkPrintPreviewPane *pane)
 GtkWidget *
 gtk_print_preview_pane_new (GtkWindow *parent)
 {
+    g_print("yash kumar kasaudhan-> gtkprintpreviewpane.c -> gtk_print_preview_pane_new\n");
     GtkPrintPreviewPane *pane;
     
     pane = g_object_new (GTK_TYPE_PRINT_PREVIEW_PANE, NULL);
@@ -408,6 +409,7 @@ gtk_print_preview_pane_load_pdf (GtkPrintPreviewPane *pane,
                                  const gchar         *pdf_file_path,
                                  GError             **error)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_load_pdf\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), FALSE);
@@ -424,7 +426,8 @@ gtk_print_preview_pane_load_pdf (GtkPrintPreviewPane *pane,
 void
 gtk_print_preview_pane_set_modal (GtkPrintPreviewPane *pane,
                                   gboolean             modal)
-{
+{   
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c  -> gtk_print_preview_pane_set_modal\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -439,6 +442,7 @@ void
 gtk_print_preview_pane_set_title (GtkPrintPreviewPane *pane,
                                   const gchar         *title)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_set_title\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -446,7 +450,7 @@ gtk_print_preview_pane_set_title (GtkPrintPreviewPane *pane,
     priv = pane->priv;
     
     g_free (priv->title);
-    priv->title = g_strdup (title ? title : _("Print Preview"));
+    priv->title = g_strdup (title ? title : _("Print Preview By Yash"));
     
     gtk_window_set_title (GTK_WINDOW (pane), priv->title);
 }
@@ -454,6 +458,7 @@ gtk_print_preview_pane_set_title (GtkPrintPreviewPane *pane,
 const gchar *
 gtk_print_preview_pane_get_title (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -. gtk_print_preview_pane_get_title\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), NULL);
@@ -465,6 +470,7 @@ gtk_print_preview_pane_get_title (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_zoom_in (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_zoom_in\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -482,6 +488,7 @@ gtk_print_preview_pane_zoom_in (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_zoom_out (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_zoom_out\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -499,6 +506,7 @@ gtk_print_preview_pane_zoom_out (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_zoom_fit_width (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_zoom_fit_width\n");
     GtkPrintPreviewPanePrivate *priv;
     gint widget_width;
     
@@ -523,6 +531,7 @@ gtk_print_preview_pane_zoom_fit_width (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_zoom_fit_page (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_zoom_fit_page\n");
     GtkPrintPreviewPanePrivate *priv;
     gint widget_width, widget_height;
     gdouble scale_x, scale_y;
@@ -554,6 +563,7 @@ void
 gtk_print_preview_pane_set_zoom (GtkPrintPreviewPane *pane,
                                  gdouble              zoom)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_set_zoom\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -569,6 +579,7 @@ gtk_print_preview_pane_set_zoom (GtkPrintPreviewPane *pane,
 gdouble
 gtk_print_preview_pane_get_zoom (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_get_zoom\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), 1.0);
@@ -581,6 +592,7 @@ void
 gtk_print_preview_pane_goto_page (GtkPrintPreviewPane *pane,
                                   gint                 page_number)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_goto_page\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -607,6 +619,7 @@ gtk_print_preview_pane_goto_page (GtkPrintPreviewPane *pane,
 gint
 gtk_print_preview_pane_get_current_page (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_get_current_page\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), 0);
@@ -618,6 +631,7 @@ gtk_print_preview_pane_get_current_page (GtkPrintPreviewPane *pane)
 gint
 gtk_print_preview_pane_get_n_pages (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_get_n_pages\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), 0);
@@ -629,6 +643,7 @@ gtk_print_preview_pane_get_n_pages (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_next_page (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_next_page\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -644,6 +659,7 @@ gtk_print_preview_pane_next_page (GtkPrintPreviewPane *pane)
 void
 gtk_print_preview_pane_previous_page (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_previous_page\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane));
@@ -659,6 +675,7 @@ gtk_print_preview_pane_previous_page (GtkPrintPreviewPane *pane)
 gboolean
 gtk_print_preview_pane_can_go_next (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_can_go_next\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), FALSE);
@@ -670,6 +687,7 @@ gtk_print_preview_pane_can_go_next (GtkPrintPreviewPane *pane)
 gboolean
 gtk_print_preview_pane_can_go_previous (GtkPrintPreviewPane *pane)
 {
+    g_print("yash kumar kasaudhan: gtkprintpreviewpane.c -> gtk_print_preview_pane_can_go_previous\n");
     GtkPrintPreviewPanePrivate *priv;
     
     g_return_val_if_fail (GTK_IS_PRINT_PREVIEW_PANE (pane), FALSE);
