@@ -300,7 +300,7 @@ unix_end_run (GtkPrintOperation *op,
   g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  unix_end_run    \n");
   GtkPrintOperationUnix *op_unix = op->priv->platform_data;
 
-  cairo_surface_finish (op_unix->surface);
+    cairo_surface_finish (op_unix->surface);
 
   if (cancelled)
     return;
@@ -596,8 +596,10 @@ handle_print_response (GtkWidget *dialog,
   GtkPrinter *printer = NULL;
   gboolean page_setup_set = FALSE;
 
+  g_print("handle_print_response --> after the variable \n");
   if (response == GTK_RESPONSE_OK)
     {
+      g_print("handle_print_response --> in the if GTK_RESPONSE_OK \n");
       printer = gtk_print_unix_dialog_get_selected_printer (GTK_PRINT_UNIX_DIALOG (pd));
 
       rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
@@ -607,6 +609,7 @@ handle_print_response (GtkWidget *dialog,
     }
   else if (response == GTK_RESPONSE_APPLY)
     {
+      g_print("handle_print_response --> in teh GTK_RESPONSE_APPLY \n");
       /* print preview */
       rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
       rdata->do_preview = TRUE;
@@ -614,9 +617,10 @@ handle_print_response (GtkWidget *dialog,
 
       rdata->op->priv->action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
     }
-
+  g_print("handle_print_response --> after if and else if \n");
   if (rdata->do_print)
     {
+      g_print("handle_print_response --> inside the rdata->do_print \n");
       settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (pd));
       page_setup = gtk_print_unix_dialog_get_page_setup (GTK_PRINT_UNIX_DIALOG (pd));
       page_setup_set = gtk_print_unix_dialog_get_page_setup_set (GTK_PRINT_UNIX_DIALOG (pd));
@@ -627,20 +631,23 @@ handle_print_response (GtkWidget *dialog,
       gtk_print_operation_set_print_settings (rdata->op, settings);
       g_signal_emit_by_name (rdata->op, "custom-widget-apply", rdata->op->priv->custom_widget);
     }
-
+    g_print("handle_print_response --> if(rdata->doprint) \n");
   if ( rdata->loop)
     g_main_loop_quit (rdata->loop);
-
+g_print("handle_print_response --> after rdata->loop\n");
 finish_print(rdata, printer, page_setup, settings, page_setup_set);
-
+g_print("handle_print_response --> after finisH_pritn \n");
 if (settings)
     g_object_unref(settings);
-
+g_print("handle_print_response --> after settings \n");
 /* ONLY destroy when we are NOT previewing */
 if (!rdata->do_preview)
     gtk_window_destroy(GTK_WINDOW(pd));
+  g_print("handle_print_response --> after the destroy \n");
 
 }
+
+
 
 
 static void
