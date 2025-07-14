@@ -1322,7 +1322,7 @@ _gtk_print_operation_platform_backend_run_dialog (GtkPrintOperation *op,
                                                   GtkWindow         *parent,
                                                   gboolean          *do_print)
 {
-  GdkDisplay *display;
+  // GdkDisplay *display;
  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> _gtk_print_operation_platform_backend_run_dialog\n");
   return gtk_print_operation_unix_run_dialog(op,show_dialog,parent,do_print);
   // if (parent)
@@ -1342,7 +1342,7 @@ _gtk_print_operation_platform_backend_run_dialog_async (GtkPrintOperation       
                                                         GtkWindow                  *parent,
                                                         GtkPrintOperationPrintFunc  print_cb)
 {
-  GdkDisplay *display;
+  // GdkDisplay *display;
   g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> _gtk_print_operation_platform_backend_run_dialog_async\n");
   gtk_print_operation_unix_run_dialog_async(op,show_dialog,parent,print_cb);
   // if (parent)
@@ -1363,7 +1363,7 @@ _gtk_print_operation_platform_backend_launch_preview (GtkPrintOperation *op,
                                                       const char        *filename)
 {
   g_print("yash kumar kasaudhan: gtkprintoperation-unix.c ->  _gtk_print_operation_platform_backend_launch_preview    \n");
-  GdkDisplay *display;
+  // GdkDisplay *display;
 
   // if (parent)
   //   display = gtk_widget_get_display (GTK_WIDGET (parent));

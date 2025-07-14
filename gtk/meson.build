@@ -1127,7 +1127,7 @@ libgtk_static = static_library('gtk',
   sources: [typefuncs, gtk_sources, gtkmarshal_h, gtkprivatetypebuiltins_h, xdp_dbus_generated],
   c_args: gtk_cargs + print_backend_cflags + common_cflags,
   include_directories: [confinc, gdkinc, gskinc, gtkinc],
-  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep, media_deps, print_backend_deps],
+  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep, media_deps, print_backend_deps, poppler_dep],
   link_with: [libgtk_css, libgdk, libgsk ],
 )
 
@@ -1302,14 +1302,14 @@ endif
 
 libgtk_dep = declare_dependency(sources: gtk_dep_sources,
   include_directories: [confinc, gtkinc],
-  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep],
+  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep,poppler_dep],
   link_with: libgtk,
   link_args: common_ldflags,
 )
 
 libgtk_static_dep = declare_dependency(sources: gtk_dep_sources,
   include_directories: [confinc, gtkinc],
-  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep],
+  dependencies: gtk_deps + [libgtk_css_dep, libgdk_dep, libgsk_dep,poppler_dep],
   link_with: [libgtk_static, libgtk_css, libgdk, libgsk ],
   link_args: common_ldflags,
 )
