@@ -72,15 +72,18 @@ typedef struct {
 } PreviewRunData;
 
 static void 
-preview_pane_response_cb (GtkPrintPreviewPane     *pane,
-                          GtkPrintPreviewResult   result,
-                          gpointer                 user_data)
+preview_pane_response_cb (GtkPrintPreviewPane *pane,
+                          GtkPrintPreviewResult result,
+                          gpointer user_data)
 {
-  PreviewRunData *pr = user_data;
-  pr->result = result;
-  g_main_loop_quit (pr->loop);
+    PreviewRunData *pr = user_data;
+    pr->result = result;
+    if (pr->loop && g_main_loop_is_running(pr->loop))
+        g_main_loop_quit(pr->loop);
 }
-
+// Add these forward declarations after the typedef struct sections
+static cairo_status_t write_preview (void *closure, const unsigned char *data, unsigned int length);
+static void close_preview (void *data);
 static void printer_finder_free (PrinterFinder *finder);
 static void find_printer        (const char    *printer,
                                  GFunc          func,
@@ -581,71 +584,358 @@ out:
     rdata->destroy (rdata);
   g_print("outside 3\n");
 }
+static void
+preview_pane_cleanup_cb(GtkWidget *widget, gpointer user_data)
+{
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> preview_pane_cleanup_cb\n");
+    char *filename = user_data;
+    g_print("Preview pane destroyed. Deleting temp file: %s\n", filename);
+    g_unlink(filename);
+    g_free(filename);
+}
+
+static void
+launch_poppler_preview_pane(GtkWindow *parent, char *pdf_filename)
+{
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> launch_poppler_preview_pane\n");
+    GtkWidget *preview;
+    GError *error = NULL;
+    PreviewRunData pr = {0};
+
+    preview = gtk_print_preview_pane_new(parent);
+
+    if (!gtk_print_preview_pane_load_pdf(GTK_PRINT_PREVIEW_PANE(preview), 
+                                         pdf_filename, &error))
+    {
+        g_warning("Preview failed to load PDF: %s", error->message);
+        g_clear_error(&error);
+        g_unlink(pdf_filename);
+        g_free(pdf_filename);
+        return;
+    }
+
+    gtk_window_set_transient_for(GTK_WINDOW(preview), parent);
+    gtk_window_set_modal(GTK_WINDOW(preview), TRUE);
+    
+    // Make sure the window can be destroyed
+    gtk_window_set_destroy_with_parent(GTK_WINDOW(preview), FALSE);
+    
+    // Connect to response signal if your preview pane emits it
+    pr.loop = g_main_loop_new(NULL, FALSE);
+    g_signal_connect(preview, "preview-finished", 
+                     G_CALLBACK(preview_pane_response_cb), &pr);
+    
+    // Connect cleanup for when window is actually destroyed
+    g_signal_connect(preview, "destroy", 
+                     G_CALLBACK(preview_pane_cleanup_cb), pdf_filename);
+
+    gtk_window_present(GTK_WINDOW(preview));
+    
+    // Run a nested main loop to handle events for the preview
+    g_main_loop_run(pr.loop);
+    g_main_loop_unref(pr.loop);
+    
+    // Destroy the preview window after the loop exits
+    gtk_window_destroy(GTK_WINDOW(preview));
+}
+
+static void
+run_isolated_preview(GtkPrintOperation *op, GtkPrintUnixDialog *dialog)
+{
+  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> run_isolated_preview\n");
+    GtkPrintOperationPrivate *priv = op->priv;
+    GtkPrintSettings *settings = NULL;
+    GtkPageSetup *page_setup = NULL;
+    char *preview_filename = NULL;
+    char *temp_filename = NULL;
+    cairo_surface_t *preview_surface = NULL;
+    GtkPrintContext *temp_context = NULL;
+    cairo_t *cr = NULL;
+    int fd = -1;
+
+    g_print("--- Starting isolated preview generation ---\n");
+
+    // Get current settings - these return references owned by the dialog
+    settings = gtk_print_unix_dialog_get_settings(dialog);
+    page_setup = gtk_print_unix_dialog_get_page_setup(dialog);
+    
+    if (!settings || !page_setup)
+    {
+        g_warning("Failed to get settings or page setup");
+        goto cleanup;
+    }
+
+    // Create temporary filename template
+    temp_filename = g_strdup("gtk-preview-XXXXXX.pdf");
+    fd = g_file_open_tmp(temp_filename, &preview_filename, NULL);
+    g_free(temp_filename);
+
+    if (fd < 0)
+    {
+        g_warning("Failed to create temp preview file");
+        goto cleanup;
+    }
+
+    // Get paper dimensions
+    double w = gtk_page_setup_get_paper_width(page_setup, GTK_UNIT_POINTS);
+    double h = gtk_page_setup_get_paper_height(page_setup, GTK_UNIT_POINTS);
+    
+    g_print("Paper dimensions: %.2f x %.2f points\n", w, h);
+    
+    // Validate dimensions
+    if (w <= 0 || h <= 0)
+    {
+        g_warning("Invalid paper dimensions: %.2f x %.2f", w, h);
+        goto cleanup;
+    }
+
+    // Close the file descriptor before creating the surface
+    close(fd);
+    fd = -1;
+
+    // Create PDF surface using filename
+    preview_surface = cairo_pdf_surface_create(preview_filename, w, h);
+    
+    if (cairo_surface_status(preview_surface) != CAIRO_STATUS_SUCCESS)
+    {
+        g_warning("Failed to create PDF surface: %s", 
+                  cairo_status_to_string(cairo_surface_status(preview_surface)));
+        goto cleanup;
+    }
+
+    cr = cairo_create(preview_surface);
+    if (cairo_status(cr) != CAIRO_STATUS_SUCCESS)
+    {
+        g_warning("Failed to create cairo context: %s",
+                  cairo_status_to_string(cairo_status(cr)));
+        goto cleanup;
+    }
+
+    // Create temporary print context
+    temp_context = _gtk_print_context_new(op);
+    if (!temp_context)
+    {
+        g_warning("Failed to create print context");
+        goto cleanup;
+    }
+    
+    gtk_print_context_set_cairo_context(temp_context, cr, 72.0, 72.0);
+    _gtk_print_context_set_page_setup(temp_context, page_setup);
+
+    // Emit signals with error checking
+    g_signal_emit_by_name(op, "begin-print", temp_context);
+
+    // Determine pages to preview
+    int start_page = 0;
+    int end_page = priv->nr_of_pages;
+    
+    if (end_page <= 0)
+    {
+        g_warning("Invalid number of pages: %d", end_page);
+        goto cleanup;
+    }
+    
+    GtkPrintPages print_pages = gtk_print_settings_get_print_pages(settings);
+    if (print_pages == GTK_PRINT_PAGES_CURRENT)
+    {
+        start_page = gtk_print_unix_dialog_get_current_page(dialog);
+        if (start_page < 0 || start_page >= end_page)
+            start_page = 0;
+        end_page = start_page + 1;
+    }
+
+    g_print("Previewing pages %d to %d\n", start_page, end_page - 1);
+
+    // Draw pages
+    for (int i = start_page; i < end_page; i++)
+    {
+        g_signal_emit_by_name(op, "draw-page", temp_context, i);
+        cairo_show_page(cr);
+    }
+
+    g_signal_emit_by_name(op, "end-print", temp_context);
+
+    // Ensure all data is written
+    cairo_surface_flush(preview_surface);
+    
+    // Destroy cairo context before finishing surface
+    if (cr)
+    {
+        cairo_destroy(cr);
+        cr = NULL;
+    }
+    
+    cairo_surface_finish(preview_surface);
+
+    // Check if file was created successfully
+    if (!g_file_test(preview_filename, G_FILE_TEST_EXISTS))
+    {
+        g_warning("Preview PDF file was not created");
+        goto cleanup;
+    }
+
+    // Launch preview - transfers ownership of filename
+    launch_poppler_preview_pane(GTK_WINDOW(dialog), preview_filename);
+    preview_filename = NULL; // Prevent double-free
+
+cleanup:
+    g_print("--- Cleaning up temporary preview resources ---\n");
+    
+    if (cr)
+        cairo_destroy(cr);
+    if (preview_surface)
+        cairo_surface_destroy(preview_surface);
+    if (fd >= 0)
+        close(fd);
+    if (temp_context)
+        g_object_unref(temp_context);
+    
+    // DO NOT unref settings and page_setup - we don't own these references!
+    // The dialog owns them and will handle their lifecycle
+    // if (settings)
+    //     g_object_unref(settings);
+    // if (page_setup)
+    //     g_object_unref(page_setup);
+    
+    if (preview_filename)
+    {
+        g_unlink(preview_filename);
+        g_free(preview_filename);
+    }
+}
 
 static void
 handle_print_response (GtkWidget *dialog,
                        int        response,
                        gpointer   data)
 {
+    g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> handle_print_response\n");
+    GtkPrintUnixDialog *pd = GTK_PRINT_UNIX_DIALOG (dialog);
+    PrintResponseData *rdata = data;
+    GtkPrintSettings *settings = NULL;
+    GtkPageSetup *page_setup = NULL;
+    GtkPrinter *printer = NULL;
+    gboolean page_setup_set = FALSE;
 
-  g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> handle_print_response     \n");
-  GtkPrintUnixDialog *pd = GTK_PRINT_UNIX_DIALOG (dialog);
-  PrintResponseData *rdata = data;
-  GtkPrintSettings *settings = NULL;
-  GtkPageSetup *page_setup = NULL;
-  GtkPrinter *printer = NULL;
-  gboolean page_setup_set = FALSE;
-
-  g_print("handle_print_response --> after the variable \n");
-  if (response == GTK_RESPONSE_OK)
+    g_print("handle_print_response --> after the variable\n");
+    
+    switch (response)
     {
-      g_print("handle_print_response --> in the if GTK_RESPONSE_OK \n");
-      printer = gtk_print_unix_dialog_get_selected_printer (GTK_PRINT_UNIX_DIALOG (pd));
+        case GTK_RESPONSE_OK:
+            g_print("handle_print_response --> in the if GTK_RESPONSE_OK\n");
+            printer = gtk_print_unix_dialog_get_selected_printer(GTK_PRINT_UNIX_DIALOG(pd));
 
-      rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
-      rdata->do_preview = FALSE;
-      if (printer != NULL)
-        rdata->do_print = TRUE;
+            rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
+            rdata->do_preview = FALSE;
+            if (printer != NULL)
+                rdata->do_print = TRUE;
+            
+            settings = gtk_print_unix_dialog_get_settings(GTK_PRINT_UNIX_DIALOG(pd));
+            page_setup = gtk_print_unix_dialog_get_page_setup(GTK_PRINT_UNIX_DIALOG(pd));
+            page_setup_set = gtk_print_unix_dialog_get_page_setup_set(GTK_PRINT_UNIX_DIALOG(pd));
+
+            gtk_print_operation_set_print_settings(rdata->op, settings);
+            g_signal_emit_by_name(rdata->op, "custom-widget-apply", rdata->op->priv->custom_widget);
+            
+            if (rdata->loop)
+                g_main_loop_quit(rdata->loop);
+                
+            finish_print(rdata, printer, page_setup, settings, page_setup_set);
+            
+            if (settings)
+                g_object_unref(settings);
+                
+            gtk_window_destroy(GTK_WINDOW(pd));
+            break;
+
+        case GTK_RESPONSE_APPLY:
+            g_print("handle_print_response --> in the GTK_RESPONSE_APPLY\n");
+            /* print preview - but now isolated */
+            run_isolated_preview(rdata->op, pd);
+            /* Dialog stays open */
+            break;
+
+        case GTK_RESPONSE_CANCEL:
+        case GTK_RESPONSE_DELETE_EVENT:
+            g_print("handle_print_response --> Handling Cancel\n");
+            rdata->result = GTK_PRINT_OPERATION_RESULT_CANCEL;
+            if (rdata->loop)
+                g_main_loop_quit(rdata->loop);
+            gtk_window_destroy(GTK_WINDOW(pd));
+            break;
+            
+        default:
+            g_print("handle_print_response --> Unknown response: %d\n", response);
+            break;
     }
-  else if (response == GTK_RESPONSE_APPLY)
-    {
-      g_print("handle_print_response --> in teh GTK_RESPONSE_APPLY \n");
-      /* print preview */
-      rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
-      rdata->do_preview = TRUE;
-      rdata->do_print = TRUE;
-
-      rdata->op->priv->action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-    }
-  g_print("handle_print_response --> after if and else if \n");
-  if (rdata->do_print)
-    {
-      g_print("handle_print_response --> inside the rdata->do_print \n");
-      settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (pd));
-      page_setup = gtk_print_unix_dialog_get_page_setup (GTK_PRINT_UNIX_DIALOG (pd));
-      page_setup_set = gtk_print_unix_dialog_get_page_setup_set (GTK_PRINT_UNIX_DIALOG (pd));
-
-      /* Set new print settings now so that custom-widget options
-       * can be added to the settings in the callback
-       */
-      gtk_print_operation_set_print_settings (rdata->op, settings);
-      g_signal_emit_by_name (rdata->op, "custom-widget-apply", rdata->op->priv->custom_widget);
-    }
-    g_print("handle_print_response --> if(rdata->doprint) \n");
-  if ( rdata->loop)
-    g_main_loop_quit (rdata->loop);
-g_print("handle_print_response --> after rdata->loop\n");
-finish_print(rdata, printer, page_setup, settings, page_setup_set);
-g_print("handle_print_response --> after finisH_pritn \n");
-if (settings)
-    g_object_unref(settings);
-g_print("handle_print_response --> after settings \n");
-/* ONLY destroy when we are NOT previewing */
-if (!rdata->do_preview)
-    gtk_window_destroy(GTK_WINDOW(pd));
-  g_print("handle_print_response --> after the destroy \n");
-
+    
+    g_print("handle_print_response --> completed\n");
 }
+
+// static void
+// handle_print_response (GtkWidget *dialog,
+//                        int        response,
+//                        gpointer   data)
+// {
+
+//   g_print("yash kumar kasaudhan: gtkprintoperation-unix.c -> handle_print_response     \n");
+//   GtkPrintUnixDialog *pd = GTK_PRINT_UNIX_DIALOG (dialog);
+//   PrintResponseData *rdata = data;
+//   GtkPrintSettings *settings = NULL;
+//   GtkPageSetup *page_setup = NULL;
+//   GtkPrinter *printer = NULL;
+//   gboolean page_setup_set = FALSE;
+
+//   g_print("handle_print_response --> after the variable \n");
+//   if (response == GTK_RESPONSE_OK)
+//     {
+//       g_print("handle_print_response --> in the if GTK_RESPONSE_OK \n");
+//       printer = gtk_print_unix_dialog_get_selected_printer (GTK_PRINT_UNIX_DIALOG (pd));
+
+//       rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
+//       rdata->do_preview = FALSE;
+//       if (printer != NULL)
+//         rdata->do_print = TRUE;
+//     }
+//   else if (response == GTK_RESPONSE_APPLY)
+//     {
+//       g_print("handle_print_response --> in teh GTK_RESPONSE_APPLY \n");
+//       /* print preview */
+//       rdata->result = GTK_PRINT_OPERATION_RESULT_APPLY;
+//       rdata->do_preview = TRUE;
+//       rdata->do_print = TRUE;
+
+//       rdata->op->priv->action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+//     }
+//   g_print("handle_print_response --> after if and else if \n");
+//   if (rdata->do_print)
+//     {
+//       g_print("handle_print_response --> inside the rdata->do_print \n");
+//       settings = gtk_print_unix_dialog_get_settings (GTK_PRINT_UNIX_DIALOG (pd));
+//       page_setup = gtk_print_unix_dialog_get_page_setup (GTK_PRINT_UNIX_DIALOG (pd));
+//       page_setup_set = gtk_print_unix_dialog_get_page_setup_set (GTK_PRINT_UNIX_DIALOG (pd));
+
+//       /* Set new print settings now so that custom-widget options
+//        * can be added to the settings in the callback
+//        */
+//       gtk_print_operation_set_print_settings (rdata->op, settings);
+//       g_signal_emit_by_name (rdata->op, "custom-widget-apply", rdata->op->priv->custom_widget);
+//     }
+//     g_print("handle_print_response --> if(rdata->doprint) \n");
+//   if ( rdata->loop)
+//     g_main_loop_quit (rdata->loop);
+// g_print("handle_print_response --> after rdata->loop\n");
+// finish_print(rdata, printer, page_setup, settings, page_setup_set);
+// g_print("handle_print_response --> after finisH_pritn \n");
+// if (settings)
+//     g_object_unref(settings);
+// g_print("handle_print_response --> after settings \n");
+// /* ONLY destroy when we are NOT previewing */
+// if (!rdata->do_preview)
+//     gtk_window_destroy(GTK_WINDOW(pd));
+//   g_print("handle_print_response --> after the destroy \n");
+
+// }
 
 
 
