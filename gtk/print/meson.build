@@ -52,12 +52,6 @@ if os_unix
     'gtkprintpreviewpane.c',
   ])
 
-  print_ui_resources = gnome.compile_resources(
-  'print-ui-resources',
-  'print-ui.gresource.xml',
-  source_dir: 'print',
-  c_name: 'print_ui'
-)
 endif
 
 gtk_win32_print_headers = []
