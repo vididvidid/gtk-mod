@@ -49,12 +49,39 @@ enum {
 
 static guint signals[LAST_SIGNAL] = {0};
 
-G_DEFINE_TYPE_WITH_PRIVATE (GtkPrintPreviewPane, gtk_print_preview_pane, GTK_TYPE_WINDOW)
-
+G_DEFINE_TYPE_WITH_PRIVATE (GtkPrintPreviewPane, gtk_print_preview_pane, GTK_TYPE_DIALOG)
 /* Forward declarations */
 static void update_page_display (GtkPrintPreviewPane *pane);
 static void update_navigation_buttons (GtkPrintPreviewPane *pane);
 static void update_zoom_display (GtkPrintPreviewPane *pane);
+static void prev_page_clicked_cb (GtkButton *button, gpointer user_data);
+static void next_page_clicked_cb (GtkButton *button, gpointer user_data);
+static void zoom_in_clicked_cb (GtkButton *button, gpointer user_data);
+static void zoom_out_clicked_cb (GtkButton *button, gpointer user_data);
+static void response_cb (GtkDialog *dialog, gint response_id, gpointer user_data);
+
+static void
+response_cb (GtkDialog *dialog,
+             gint       response_id,
+             gpointer   user_data)
+{
+    GtkPrintPreviewPane *pane = GTK_PRINT_PREVIEW_PANE (user_data);
+    GtkPrintPreviewResult result;
+
+    if (response_id == GTK_RESPONSE_OK)
+    {
+        result = GTK_PRINT_PREVIEW_RESULT_PRINT;
+    }
+    else
+    {
+        result = GTK_PRINT_PREVIEW_RESULT_CANCEL;
+    }
+
+    g_signal_emit (pane, signals[PREVIEW_FINISHED], 0, result);
+
+    /* We can now destroy the widget */
+    gtk_window_destroy(GTK_WINDOW(pane));
+}
 
 /* Drawing area draw callback */
 static void
@@ -272,10 +299,28 @@ static void
 gtk_print_preview_pane_class_init (GtkPrintPreviewPaneClass *class)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (class);
-    
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
+
     object_class->finalize = gtk_print_preview_pane_finalize;
-    
-    /* Signals */
+
+    gtk_widget_class_set_template_from_resource (widget_class, "/org/gtk/libgtk/print/ui/gtkprintpreviewpane.ui");
+
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, preview_drawing_area);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, prev_page_button);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, next_page_button);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, page_label);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, zoom_in_button);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, zoom_out_button);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, zoom_label);
+    gtk_widget_class_bind_template_child_private (widget_class, GtkPrintPreviewPane, scrolled_window);
+    // Note: We don't bind print/close buttons as their response is handled by the dialog.
+
+    gtk_widget_class_bind_template_callback (widget_class, prev_page_clicked_cb);
+    gtk_widget_class_bind_template_callback (widget_class, next_page_clicked_cb);
+    gtk_widget_class_bind_template_callback (widget_class, zoom_in_clicked_cb);
+    gtk_widget_class_bind_template_callback (widget_class, zoom_out_clicked_cb);
+    gtk_widget_class_bind_template_callback (widget_class, response_cb);
+
     signals[PREVIEW_FINISHED] =
         g_signal_new (I_("preview-finished"),
                       G_TYPE_FROM_CLASS (class),
@@ -291,103 +336,23 @@ static void
 gtk_print_preview_pane_init (GtkPrintPreviewPane *pane)
 {
     GtkPrintPreviewPanePrivate *priv;
-    GtkBuilder *builder;
-    GError *error = NULL;
-    GtkWidget *content_box;
-    GtkWidget *toolbar;
-    GtkWidget *button_box;
-    
-    pane->priv = gtk_print_preview_pane_get_instance_private (pane);
-    priv = pane->priv;
-    
-    /* Initialize properties */
+
+    gtk_widget_init_template (GTK_WIDGET (pane));
+
+    priv = gtk_print_preview_pane_get_instance_private (pane);
+    pane->priv = priv;
+
     priv->scale = 1.0;
     priv->current_page_num = 0;
     priv->total_pages = 0;
-    priv->title = g_strdup (_("Print Preview"));
-    priv->modal = TRUE;
-    
-    /* Create UI programmatically (since GtkBuilder resource loading may differ) */
-    content_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_window_set_child (GTK_WINDOW (pane), content_box);
-    
-    /* Create toolbar */
-    toolbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-    gtk_widget_set_margin_start (toolbar, 6);
-    gtk_widget_set_margin_end (toolbar, 6);
-    gtk_widget_set_margin_top (toolbar, 6);
-    gtk_widget_set_margin_bottom (toolbar, 6);
-    gtk_box_append (GTK_BOX (content_box), toolbar);
-    
-    /* Navigation buttons */
-    priv->prev_page_button = gtk_button_new_with_label (_("Previous"));
-    priv->next_page_button = gtk_button_new_with_label (_("Next"));
-    priv->page_label = gtk_label_new (_("Page 1 of 1"));
-    
-    gtk_box_append (GTK_BOX (toolbar), priv->prev_page_button);
-    gtk_box_append (GTK_BOX (toolbar), priv->next_page_button);
-    gtk_box_append (GTK_BOX (toolbar), priv->page_label);
-    
-    /* Zoom controls */
-    priv->zoom_out_button = gtk_button_new_with_label (_("Zoom Out"));
-    priv->zoom_in_button = gtk_button_new_with_label (_("Zoom In"));
-    priv->zoom_label = gtk_label_new ("100%");
-    
-    gtk_box_append (GTK_BOX (toolbar), priv->zoom_out_button);
-    gtk_box_append (GTK_BOX (toolbar), priv->zoom_in_button);
-    gtk_box_append (GTK_BOX (toolbar), priv->zoom_label);
-    
-    /* Action buttons */
-    button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-    priv->print_button = gtk_button_new_with_label (_("Print"));
-    priv->close_button = gtk_button_new_with_label (_("Close"));
-    
-    gtk_box_append (GTK_BOX (button_box), priv->print_button);
-    gtk_box_append (GTK_BOX (button_box), priv->close_button);
-    gtk_box_append (GTK_BOX (toolbar), button_box);
-    
-    /* Create scrolled window for drawing area */
-    priv->scrolled_window = gtk_scrolled_window_new ();
-    gtk_widget_set_vexpand (priv->scrolled_window, TRUE);
-    gtk_widget_set_hexpand (priv->scrolled_window, TRUE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->scrolled_window),
-                                    GTK_POLICY_AUTOMATIC,
-                                    GTK_POLICY_AUTOMATIC);
-    gtk_box_append (GTK_BOX (content_box), priv->scrolled_window);
-    
-    /* Create drawing area */
-    priv->preview_drawing_area = gtk_drawing_area_new ();
-    gtk_drawing_area_set_content_width (GTK_DRAWING_AREA (priv->preview_drawing_area), 400);
-    gtk_drawing_area_set_content_height (GTK_DRAWING_AREA (priv->preview_drawing_area), 600);
-    gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (priv->scrolled_window),
-                                   priv->preview_drawing_area);
-    
-    /* Set up drawing area */
+
     gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (priv->preview_drawing_area),
                                     preview_draw_func,
                                     pane,
                                     NULL);
-    
-    /* Connect button signals */
-    g_signal_connect (priv->prev_page_button, "clicked", G_CALLBACK (prev_page_clicked_cb), pane);
-    g_signal_connect (priv->next_page_button, "clicked", G_CALLBACK (next_page_clicked_cb), pane);
-    g_signal_connect (priv->zoom_in_button, "clicked", G_CALLBACK (zoom_in_clicked_cb), pane);
-    g_signal_connect (priv->zoom_out_button, "clicked", G_CALLBACK (zoom_out_clicked_cb), pane);
-    g_signal_connect (priv->print_button, "clicked", G_CALLBACK (print_clicked_cb), pane);
-    g_signal_connect (priv->close_button, "clicked", G_CALLBACK (close_clicked_cb), pane);
-    
-    /* Connect window close signal */
-    g_signal_connect (pane, "close-request", G_CALLBACK (on_close_request), NULL);
-    
-    /* Set up window properties */
-    gtk_window_set_title (GTK_WINDOW (pane), priv->title);
-    gtk_window_set_default_size (GTK_WINDOW (pane), 900, 700);
-    gtk_window_set_modal (GTK_WINDOW (pane), priv->modal);
-    
-    /* Initialize zoom display */
+
     update_zoom_display (pane);
 }
-
 /* Public API Implementation */
 
 GtkWidget *
